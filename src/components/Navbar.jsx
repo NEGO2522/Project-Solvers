@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ai_icon from '../assets/ai_icon.png';
 
-const Navbar = () => {
+const Navbar = ({ onMenuClick }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -97,7 +97,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-md rounded-3xl mx-auto mt-4 w-[95%] max-w-4xl">
+    <nav className="bg-white shadow-sm fixed top-0 left-0 right-0 z-50 rounded-3xl mx-auto mt-4 w-[95%] max-w-6xl">
       <div className="px-4 sm:px-6">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
@@ -297,6 +297,12 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-4">
+            <Link 
+              to="/competitions" 
+              className="ml-4 px-4 py-2 text-sm font-medium text-gray-700 hover:text-[#c2b490] whitespace-nowrap"
+            >
+              Competitions
+            </Link>
             {isLoggedIn ? (
               <div className="h-8 w-8 rounded-full bg-[#c2b490] flex items-center justify-center text-white">
                 {auth.currentUser?.email[0].toUpperCase()}
@@ -306,7 +312,7 @@ const Navbar = () => {
                 <Link to="/login" className="text-gray-700 hover:text-[#c2b490] px-3 py-2 text-sm font-medium">
                   Login
                 </Link>
-                <Link
+                <Link 
                   to="/signup"
                   className="bg-[#c2b490] hover:bg-[#a08f6a] text-white px-4 py-2 rounded-full text-sm font-medium transition-colors"
                 >
@@ -317,10 +323,26 @@ const Navbar = () => {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={onMenuClick}
+              className="md:hidden inline-flex items-center justify-center p-2 rounded-full text-gray-700 hover:text-[#c2b490] hover:bg-gray-100 focus:outline-none"
+              aria-label="Toggle sidebar"
+            >
+              <svg
+                className="h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-full text-gray-700 hover:text-[#c2b490] hover:bg-gray-100 focus:outline-none"
+              className="md:hidden inline-flex items-center justify-center p-2 rounded-full text-gray-700 hover:text-[#c2b490] hover:bg-gray-100 focus:outline-none"
+              aria-label="Toggle menu"
             >
               <svg
                 className="h-6 w-6"
@@ -332,7 +354,7 @@ const Navbar = () => {
                 {isOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7" />
                 )}
               </svg>
             </button>
@@ -348,6 +370,13 @@ const Navbar = () => {
             <div className="px-3 py-2">
               <h3 className="text-sm font-medium text-gray-500 px-2 mb-2">Categories</h3>
               <div className="grid grid-cols-2 gap-2">
+                <Link
+                  to="/competitions"
+                  className="px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Competitions
+                </Link>
                 {categories.map((category) => (
                   <Link
                     key={category}

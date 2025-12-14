@@ -52,10 +52,10 @@ const Home = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Upcoming Events</h1>
-        <p className="text-xl text-gray-600">Join us for these exciting events and workshops</p>
+    <div className="relative w-full pt-10 ml-0 lg:ml-8">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Upcoming Events</h1>
+        <p className="text-gray-600">Join us for these exciting events and workshops</p>
       </div>
 
       {events.length === 0 ? (
@@ -63,7 +63,7 @@ const Home = () => {
           <p className="text-gray-500 text-lg">No upcoming events at the moment. Check back soon!</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
           {events.map((event) => (
             <div key={event.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
               <div className="h-48 bg-gradient-to-r from-[#c2b490] to-[#a08f6a] flex items-center justify-center">
@@ -107,9 +107,9 @@ const Home = () => {
         </div>
       )}
 
-      <div className="mt-16 text-center">
-        <h2 className="text-3xl font-bold text-gray-900 mb-6">Host Your Own Event</h2>
-        <p className="text-gray-600 mb-8 max-w-3xl mx-auto">
+      <div className="mt-12 text-center border-t border-gray-100 pt-8 max-w-4xl mx-auto">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">Host Your Own Event</h2>
+        <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
           Want to organize an event with us? We'd love to collaborate! Share your ideas and let's create something amazing together.
         </p>
         <button 
@@ -119,6 +119,73 @@ const Home = () => {
           Contact Us to Host an Event
         </button>
       </div>
+
+      {/* Floating Assistant Button */}
+      <div className="fixed bottom-8 right-8 z-40">
+        <button
+          onClick={() => alert('Assistant is here to help!')}
+          className="bg-[#c2b490] hover:bg-[#a08f6a] text-white rounded-full p-4 shadow-lg transform transition-all duration-300 hover:scale-110 hover:shadow-xl"
+          aria-label="Assistant"
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+            />
+          </svg>
+        </button>
+      </div>
+      
+      {/* Footer Section */}
+      <footer className="bg-gray-50 border-t border-gray-200 mt-16">
+        <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">EventMasters</h3>
+              <p className="text-gray-600 text-sm">Connecting people through amazing events and experiences.</p>
+            </div>
+            <div>
+              <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">Events</h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-600 hover:text-[#c2b490] text-sm">Upcoming Events</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-[#c2b490] text-sm">Popular Events</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-[#c2b490] text-sm">Categories</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-[#c2b490] text-sm">Create Event</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">Company</h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-600 hover:text-[#c2b490] text-sm">About Us</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-[#c2b490] text-sm">Careers</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-[#c2b490] text-sm">Blog</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-[#c2b490] text-sm">Contact</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">Legal</h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-600 hover:text-[#c2b490] text-sm">Privacy Policy</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-[#c2b490] text-sm">Terms of Service</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-[#c2b490] text-sm">Cookie Policy</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="mt-12 pt-8 border-t border-gray-200">
+            <p className="text-center text-sm text-gray-500">
+              &copy; {new Date().getFullYear()} EventMasters. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
