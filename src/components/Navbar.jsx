@@ -11,6 +11,7 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
   const [showSearchCard, setShowSearchCard] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
   const [showProfileCard, setShowProfileCard] = useState(false);
+  const [showHostDropdown, setShowHostDropdown] = useState(false);
   const isSidebarOpen = sidebarOpen || false;
   const [filters, setFilters] = useState({
     category: 'all',
@@ -62,6 +63,36 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
     };
   }, [showProfileCard]);
 
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      // Handle profile card
+      const profileCircle = document.querySelector('[data-profile-circle]');
+      const clickedOutsideProfileCard = profileCardRef.current && !profileCardRef.current.contains(event.target);
+      const clickedOutsideProfileCircle = profileCircle && !profileCircle.contains(event.target);
+      
+      // Handle host dropdown
+      const hostButton = document.querySelector('[data-host-button]');
+      const clickedOutsideHostDropdown = hostButton && !hostButton.contains(event.target);
+      
+      if (clickedOutsideProfileCard && clickedOutsideProfileCircle) {
+        setShowProfileCard(false);
+      }
+      
+      if (clickedOutsideHostDropdown) {
+        setShowHostDropdown(false);
+      }
+    }
+
+    if (showProfileCard || showHostDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showProfileCard, showHostDropdown]);
+
   const auth = getAuth();
   const navigate = useNavigate();
 
@@ -112,6 +143,15 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
     setShowProfileCard(false);
   };
 
+  const toggleHostDropdown = (e) => {
+    e.preventDefault();
+    setShowHostDropdown(!showHostDropdown);
+  };
+
+  const closeHostDropdown = () => {
+    setShowHostDropdown(false);
+  };
+
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
@@ -159,7 +199,7 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
   return (
     <nav className="bg-white shadow-sm fixed top-0 left-0 right-0 z-50 w-full">
       <div className="px-4 sm:px-6">
-        <div className="flex justify-between h-16 items-center">
+        <div className="flex justify-between h-16 item-s-center">
           {/* Left side - Menu button and logo */}
           <div className="flex items-center">
             <button 
@@ -189,7 +229,7 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
           </div>
 
           {/* Search Bar - Desktop */}
-          <div className="hidden md:flex items-center w-2/3">
+          <div className="hidden md:flex items-center w-1/3">
             <form onSubmit={handleSearch} className="flex-1">
               <div className="relative">
                 <div className="relative flex items-center">
@@ -331,46 +371,69 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
               </div>
             </form>
             
-            {/* Categories Dropdown */}
-            <div className="relative ml-4" ref={categoriesRef}>
+            {/* Host Button */}
+            <div className="relative">
               <button
-                type="button"
-                onClick={() => setShowCategories(!showCategories)}
-                className="flex items-center justify-between px-4 py-2 border border-gray-300 rounded-full bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c2b490]"
-                id="categories-menu"
-                aria-haspopup="true"
-                aria-expanded={showCategories}
+                onClick={toggleHostDropdown}
+                data-host-button
+                className="ml-2 flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:text-[#c2b490] transition-colors border border-[#c2b490] rounded-full hover:bg-[#f8f5ee] focus:outline-none focus:ring-2 focus:ring-[#c2b490] focus:ring-offset-2"
               >
-                Categories
                 <svg
-                  className="ml-2 -mr-1 h-5 w-5"
+                  className="w-4 h-4 mr-1.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
                 >
                   <path
-                    fillRule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clipRule="evenodd"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 4v16m8-8H4"
                   />
                 </svg>
+                Host
               </button>
 
-              {showCategories && (
-                <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
-                  <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="categories-menu">
-                    {categories.map((category) => (
-                      <Link
-                        key={category}
-                        to={`/category/${category.toLowerCase().replace(/\s+/g, '-')}`}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                        role="menuitem"
-                        onClick={() => setShowCategories(false)}
-                      >
-                        {category}
-                      </Link>
-                    ))}
+              {/* Host Dropdown */}
+              {showHostDropdown && (
+                <div className="origin-top-right absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 z-50 overflow-hidden">
+                  {/* Dropdown header */}
+                  <div className="px-4 py-3 border-b border-gray-100">
+                    <h3 className="text-sm font-medium text-gray-700">Organizer Tools</h3>
+                  </div>
+                  
+                  {/* Dropdown items */}
+                  <div className="py-1" role="menu">
+                    <Link
+                      to="/organizer"
+                      className="group flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-[#f8f5ee] transition-colors"
+                      role="menuitem"
+                      onClick={closeHostDropdown}
+                    >
+                      <div className="flex items-center">
+                        <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#f0e9dd] text-[#c2b490] group-hover:bg-[#e6dcc9] transition-colors">
+                          <svg
+                            className="h-4 w-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                            />
+                          </svg>
+                        </div>
+                        <div>
+                          <p className="font-medium text-gray-900">Organizer Dashboard</p>
+                          <p className="text-xs text-gray-500">Manage your events and tickets</p>
+                        </div>
+                      </div>
+                    </Link>
                   </div>
                 </div>
               )}
