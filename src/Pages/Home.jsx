@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
-import PopularCommunities from '../components/PopularCommunities';
 
 const Home = ({ sidebarOpen, onToggleSidebar }) => {
   const [events, setEvents] = useState([]);
@@ -92,7 +91,7 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Main Content */}
-          <div className="flex-1">
+          <div className="w-full">
             <div className="mb-8">
               <h1 className="text-3xl font-bold text-gray-900 mb-2">Upcoming Events</h1>
               <p className="text-gray-600">Join us for these exciting events and workshops</p>
@@ -147,25 +146,6 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
               </div>
             )}
 
-            <div className="mt-12 text-center border-t border-gray-100 pt-8 max-w-4xl mx-auto">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Host Your Own Event</h2>
-              <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-                Want to organize an event with us? We'd love to collaborate! Share your ideas and let's create something amazing together.
-              </p>
-              <button 
-                className="px-6 py-3 bg-white border-2 border-[#c2b490] text-[#c2b490] font-medium rounded-md hover:bg-gray-50 transition-colors"
-                onClick={() => window.location.href = '/contact'}
-              >
-                Contact Us to Host an Event
-              </button>
-            </div>
-          </div>
-
-          {/* Sidebar with Popular Communities */}
-          <div className="lg:w-80 flex-shrink-0">
-            <div className="sticky top-24">
-              <PopularCommunities />
-            </div>
           </div>
         </div>
       </div>
@@ -195,7 +175,7 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
       </div>
       
       {/* Footer Section */}
-      <footer className="bg-gray-50 border-t border-gray-200 mt-16">
+      {/* <footer className="bg-gray-50 border-t border-gray-200 mt-16">
         <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
@@ -235,7 +215,7 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
             </p>
           </div>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 };
