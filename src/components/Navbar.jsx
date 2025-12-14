@@ -11,6 +11,7 @@ const Navbar = ({ onMenuClick }) => {
   const [showSearchCard, setShowSearchCard] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
   const [showProfileCard, setShowProfileCard] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [filters, setFilters] = useState({
     category: 'all',
     date: 'any',
@@ -131,8 +132,25 @@ const Navbar = ({ onMenuClick }) => {
   const handleMenuClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
+    setIsSidebarOpen(!isSidebarOpen);
     if (onMenuClick) onMenuClick();
   };
+
+  const handleCloseSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
+  // Close sidebar when clicking outside
+  useEffect(() => {
+    if (isSidebarOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isSidebarOpen]);
 
   return (
     <nav className="bg-white shadow-sm fixed top-0 left-0 right-0 z-50 w-full">
@@ -143,23 +161,39 @@ const Navbar = ({ onMenuClick }) => {
             <button 
               type="button"
               onClick={handleMenuClick}
-              className="p-2 -ml-2 text-gray-500 hover:text-[#c2b490] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#c2b490] rounded-md"
+              className="p-2 -ml-2 text-gray-500 hover:text-[#c2b490] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#c2b490] rounded-md transition-colors"
               aria-label="Toggle menu"
               style={{ WebkitTapHighlightColor: 'transparent' }}
             >
-              <svg 
-                className="h-6 w-6" 
-                fill="none" 
-                viewBox="0 0 24 24" 
-                stroke="currentColor"
-              >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={2} 
-                  d="M4 6h16M4 12h16M4 18h16" 
-                />
-              </svg>
+              {isSidebarOpen ? (
+                <svg 
+                  className="h-6 w-6" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M6 18L18 6M6 6l12 12" 
+                  />
+                </svg>
+              ) : (
+                <svg 
+                  className="h-6 w-6" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M4 6h16M4 12h16M4 18h16" 
+                  />
+                </svg>
+              )}
             </button>
             <Link to="/" className="ml-2 flex-shrink-0 flex items-center">
               <span className="text-xl font-bold text-[#c2b490]">EventMasters</span>
@@ -357,12 +391,6 @@ const Navbar = ({ onMenuClick }) => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link 
-              to="/competitions" 
-              className="ml-4 px-4 py-2 text-sm font-medium text-gray-700 hover:text-[#c2b490] whitespace-nowrap"
-            >
-              Competitions
-            </Link>
             {isLoggedIn ? (
               <div className="relative">
                 <button
@@ -512,13 +540,6 @@ const Navbar = ({ onMenuClick }) => {
             <div className="px-3 py-2">
               <h3 className="text-sm font-medium text-gray-500 px-2 mb-2">Categories</h3>
               <div className="grid grid-cols-2 gap-2">
-                <Link
-                  to="/competitions"
-                  className="px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Competitions
-                </Link>
                 {categories.map((category) => (
                   <Link
                     key={category}
@@ -651,6 +672,108 @@ const Navbar = ({ onMenuClick }) => {
           </div>
         </div>
       )}
+
+      {/* Sidebar */}
+      <div
+        className={`fixed top-0 left-0 h-screen w-80 bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out ${
+          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        <div className="flex flex-col h-full">
+          {/* Sidebar Header */}
+          <div className="flex items-center justify-between p-6 border-b border-gray-200">
+            <h2 className="text-2xl font-bold text-[#c2b490]">Menu</h2>
+            <button
+              type="button"
+              onClick={handleCloseSidebar}
+              className="p-2 text-gray-500 hover:text-[#c2b490] hover:bg-gray-100 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#c2b490]"
+              aria-label="Close sidebar"
+            >
+              <svg
+                className="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+
+          {/* Sidebar Navigation */}
+          <nav className="flex-1 overflow-y-auto py-6">
+            <div className="px-6 space-y-2">
+              <Link
+                to="/"
+                onClick={handleCloseSidebar}
+                className="flex items-center px-4 py-3 text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 group"
+              >
+                <svg
+                  className="w-5 h-5 mr-3 text-gray-500 group-hover:text-[#c2b490] transition-colors"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                  />
+                </svg>
+                <span className="text-base font-medium">Home</span>
+              </Link>
+
+              <Link
+                to="/about"
+                onClick={handleCloseSidebar}
+                className="flex items-center px-4 py-3 text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 group"
+              >
+                <svg
+                  className="w-5 h-5 mr-3 text-gray-500 group-hover:text-[#c2b490] transition-colors"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span className="text-base font-medium">About</span>
+              </Link>
+
+              <Link
+                to="/contact"
+                onClick={handleCloseSidebar}
+                className="flex items-center px-4 py-3 text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 group"
+              >
+                <svg
+                  className="w-5 h-5 mr-3 text-gray-500 group-hover:text-[#c2b490] transition-colors"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
+                <span className="text-base font-medium">Contact</span>
+              </Link>
+            </div>
+          </nav>
+        </div>
+      </div>
     </nav>
   );
 };

@@ -6,6 +6,7 @@ import Login from './auth/Login';
 import SignUp from './auth/SignUp';
 import ContactUs from './Pages/ContactU';
 import Home from './Pages/Home';
+import About from './Pages/About';
 import Navbar from './components/Navbar';
 
 function App() {
@@ -58,6 +59,18 @@ function App() {
             <Route 
               path="/contact" 
               element={<ContactUs />} 
+            />
+            <Route 
+              path="/about" 
+              element={
+                user ? (
+                  <div className="flex-1 min-h-[calc(100vh-4rem)]">
+                    <About />
+                  </div>
+                ) : (
+                  <Navigate to="/login" />
+                )
+              } 
             />
             <Route 
               path="/" 
