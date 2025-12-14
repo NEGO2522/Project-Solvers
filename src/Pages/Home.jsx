@@ -73,7 +73,7 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#c2b490]"></div>
       </div>
     );
@@ -206,15 +206,56 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
       </div>
 
       {/* Carousel */}
-      <div className="relative h-96 mb-8 overflow-hidden rounded-xl mx-4 sm:mx-6 lg:mx-8 shadow-xl group">
+      <div className="w-full h-[400px] overflow-hidden rounded-lg shadow-lg">
         <Slider ref={sliderRef} {...settings}>
           {carouselSlides.map((slide) => (
-            <div key={slide.id} className="h-96 w-full">
-              <img 
-                src={slide.image} 
-                alt=""
-                className="w-full h-full object-cover"
-              />
+            <div key={slide.id} className="h-[400px] w-full">
+              {slide.id === 1 ? (
+                <a 
+                  href="https://in.bookmyshow.com/events/ap-dhillon-one-of-one-tour-jaipur/ET00458409" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block w-full h-full"
+                >
+                  <img
+                    src={slide.image}
+                    alt="AP Dhillon One of One Tour"
+                    className="w-full h-full object-cover cursor-pointer"
+                  />
+                </a>
+              ) : slide.id === 2 ? (
+                <a 
+                  href="https://vision.hack2skill.com/event/genaiexchange?tab=academy&utm_source=hack2skill&utm_medium=homepage" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block w-full h-full"
+                >
+                  <img
+                    src={slide.image}
+                    alt="GenAI Exchange Academy"
+                    className="w-full h-full object-cover cursor-pointer"
+                  />
+                </a>
+              ) : slide.id === 3 ? (
+                <a 
+                  href="https://in.bookmyshow.com/sports/sbi-green-marathon-season-6-jaipur/ET00449722" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block w-full h-full"
+                >
+                  <img
+                    src={slide.image}
+                    alt="SBI Green Marathon Season 6 - Jaipur"
+                    className="w-full h-full object-cover cursor-pointer"
+                  />
+                </a>
+              ) : (
+                <img
+                  src={slide.image}
+                  alt={`Slide ${slide.id}`}
+                  className="w-full h-full object-cover"
+                />
+              )}
             </div>
           ))}
         </Slider>
