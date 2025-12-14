@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { app } from '../firebase';
 import './Landing.css';
 
 const Landing = () => {
   const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const auth = getAuth(app);
   
   const backgroundImages = [
     'https://images.pexels.com/photos/976866/pexels-photo-976866.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=2',
@@ -15,15 +19,25 @@ const Landing = () => {
   ];
 
   useEffect(() => {
-    // Navigation timer - redirect to /home after 3 seconds
+    // Check authentication status
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsAuthenticated(!!user);
+    });
+
+    // Navigation timer - redirect based on auth status after 3 seconds
     const navTimer = setTimeout(() => {
-      navigate('/home');
+      if (isAuthenticated) {
+        navigate('/home');
+      } else {
+        navigate('/login');
+      }
     }, 3000);
 
     return () => {
       clearTimeout(navTimer);
+      unsubscribe();
     };
-  }, [navigate]);
+  }, [navigate, isAuthenticated, auth]);
 
   return (
     <div className="landing-container">

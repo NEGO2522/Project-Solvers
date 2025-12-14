@@ -99,44 +99,47 @@
   z-index: 2;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  padding: 1rem;
-  flex-wrap: wrap;
+  transform: scale(1.1);  /* Slightly scale up the entire container */
+  transform-origin: center;
+  padding: 2rem 0;  /* Add some vertical padding */
 }
 
 /* Base slide-in styles */
 .slide-in {
   font-family: 'Playfair Display', serif;
-  font-size: 5.5rem;
-  font-weight: 800;
+  font-size: 8rem;  /* Increased from 6.5rem */
+  font-weight: 900;  /* Made bolder */
   font-style: italic;
   color: #E3E3E3;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.7);  /* Enhanced shadow */
   opacity: 0;
   animation-duration: 1s;
   animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   animation-fill-mode: forwards;
-  padding: 0.5rem 1.5rem;
+  padding: 0.5rem 2rem;  /* Increased horizontal padding */
   white-space: nowrap;
-  letter-spacing: 1px;
-  line-height: 1.1;
+  letter-spacing: 2px;  /* Increased letter spacing */
+  line-height: 1.2;  /* Slightly more line height */
   position: relative;
   z-index: 2;
+  margin: 0.5rem 0;  /* Added vertical margin */
+  text-transform: uppercase;  /* All uppercase for more impact */
 }
 
 /* Style for the middle word */
 .slide-in:nth-child(2) {
   font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
-  font-size: 3.5rem;
+  font-weight: 600;  /* Made bolder */
+  font-size: 5rem;  /* Increased from 3.5rem */
   color: #ffffff;
-  margin: 0 0.5rem;
+  margin: 0 1rem;  /* Increased horizontal margin */
   position: relative;
-  top: -5px;
-  letter-spacing: 2px;
+  top: -10px;  /* Adjusted positioning */
+  letter-spacing: 4px;  /* Increased letter spacing */
   text-transform: uppercase;
   font-style: normal;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);  /* Enhanced shadow */
+  padding: 0.5rem 1.5rem;  /* Added padding */
 }
 
 /* Individual animations */
@@ -159,26 +162,47 @@
 }
 
 /* Responsive adjustments */
+@media (max-width: 1200px) {
+  .slide-in {
+    font-size: 7rem;
+  }
+  .slide-in:nth-child(2) {
+    font-size: 4.5rem;
+    top: -8px;
+  }
+}
+
 @media (max-width: 1024px) {
   .slide-in {
-    font-size: 4rem;
+    font-size: 6rem;
+    padding: 0.5rem 1.5rem;
   }
-  
   .slide-in:nth-child(2) {
-    font-size: 3rem;
-    top: -3px;
+    font-size: 4rem;
+    top: -6px;
+  }
+}
+
+@media (max-width: 900px) {
+  .slide-in {
+    font-size: 5rem;
+    padding: 0.5rem 1.2rem;
+  }
+  .slide-in:nth-child(2) {
+    font-size: 3.5rem;
+    top: -4px;
   }
 }
 
 @media (max-width: 768px) {
   .slide-in {
-    font-size: 3rem;
+    font-size: 4rem;
     padding: 0.5rem 1rem;
+    letter-spacing: 1px;
   }
-  
   .slide-in:nth-child(2) {
-    font-size: 2.5rem;
-    top: -2px;
+    font-size: 3rem;
+    top: -3px;
   }
   
   .slide-in-container {
