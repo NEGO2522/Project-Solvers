@@ -189,13 +189,13 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
   return (
     <nav className="bg-white shadow-sm fixed top-0 left-0 right-0 z-50 w-full">
       <div className="px-4 sm:px-6">
-        <div className="flex justify-between h-16 item-s-center">
+        <div className="flex justify-between items-center h-16 relative">
           {/* Left side - Menu button and logo */}
-          <div className="flex items-center">
+          <div className="flex items-center flex-shrink-0">
             <button 
               type="button"
               onClick={handleMenuClick}
-              className="p-2 -ml-2 text-gray-500 hover:text-[#c2b490] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#c2b490] rounded-md transition-colors"
+              className="p-2 -ml-2 text-gray-500 hover:text-[#c2b490] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#c2b490] rounded-md transition-colors cursor-pointer"
               aria-label="Toggle sidebar"
               style={{ WebkitTapHighlightColor: 'transparent' }}
             >
@@ -218,9 +218,9 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
             </Link>
           </div>
 
-          {/* Search Bar - Desktop */}
-          <div className="hidden md:flex items-center w-1/3">
-            <form onSubmit={handleSearch} className="flex-1">
+          {/* Search Bar - Desktop - Centered */}
+          <div className="hidden md:flex items-center justify-center absolute left-1/2 transform -translate-x-1/2">
+            <form onSubmit={handleSearch} className="w-96">
               <div className="relative">
                 <div className="relative flex items-center">
                   <div className="absolute left-3 text-gray-400">
@@ -360,13 +360,16 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
                 )}
               </div>
             </form>
-            
+          </div>
+
+          {/* Desktop Navigation - Right side */}
+          <div className="hidden md:flex items-center ml-auto space-x-6">
             {/* Host Button */}
             <div className="relative">
               <button
                 onClick={toggleHostDropdown}
                 data-host-button
-                className="ml-2 flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:text-[#c2b490] transition-colors border border-[#c2b490] rounded-full hover:bg-[#f8f5ee] focus:outline-none focus:ring-2 focus:ring-[#c2b490] focus:ring-offset-2"
+                className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:text-[#c2b490] transition-colors border border-[#c2b490] rounded-full hover:bg-[#f8f5ee] focus:outline-none focus:ring-2 focus:ring-[#c2b490] focus:ring-offset-2"
               >
                 <svg
                   className="w-4 h-4 mr-1.5"
@@ -428,10 +431,7 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
                 </div>
               )}
             </div>
-          </div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-4">
+            
             {isLoggedIn ? (
               <div className="relative">
                 <button
