@@ -4,6 +4,16 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
+// Import category icons
+import artsIcon from '../assets/arts.png';
+import businessIcon from '../assets/business.png';
+import fashionIcon from '../assets/fashion.png';
+import musicIcon from '../assets/music.png';
+import sportsIcon from '../assets/sports.png';
+import techIcon from '../assets/technology.png';
+import socialIcon from '../assets/social.png';
+import careerIcon from '../assets/career.png';
+
 const Home = ({ sidebarOpen, onToggleSidebar }) => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -156,8 +166,45 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
   ];
   
 
+  // Category data
+  const categories = [
+    { id: 1, name: 'Technology', icon: techIcon },
+    { id: 2, name: 'Sports', icon: sportsIcon },
+    { id: 3, name: 'Music', icon: musicIcon },
+    { id: 4, name: 'Business', icon: businessIcon },
+    { id: 5, name: 'Fashion', icon: fashionIcon },
+    { id: 6, name: 'Social', icon: socialIcon },
+    { id: 7, name: 'Career', icon: careerIcon },
+    { id: 8, name: 'Arts', icon: artsIcon },
+  ];
+
   return (
     <div className="relative w-full pt-4">
+      {/* Categories */}
+      <div className="w-full px-4 sm:px-6 lg:px-8 mb-12">
+        <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">Categories</h2>
+        <div className="flex flex-wrap justify-center gap-4 sm:gap-6 items-center w-full">
+          {categories.map((category) => (
+            <button
+              key={category.id}
+              className="flex flex-col items-center justify-center w-20 sm:w-24 transition-transform hover:scale-105 focus:outline-none"
+              onClick={() => console.log(`Selected: ${category.name}`)}
+            >
+              <div className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-1.5 p-1">
+                <img 
+                  src={category.icon} 
+                  alt={category.name} 
+                  className="w-10 h-10 sm:w-12 sm:h-12 object-contain"
+                />
+              </div>
+              <span className="text-xs sm:text-sm font-medium text-gray-700 text-center">
+                {category.name}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Carousel */}
       <div className="relative h-96 mb-8 overflow-hidden rounded-xl mx-4 sm:mx-6 lg:mx-8 shadow-xl group">
         <Slider ref={sliderRef} {...settings}>
