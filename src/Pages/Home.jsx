@@ -1,9 +1,24 @@
 import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
+import PopularCommunities from '../components/PopularCommunities';
 
-const Home = () => {
+const Home = ({ sidebarOpen, onToggleSidebar }) => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showSidebar, setShowSidebar] = useState(false);
+
+  useEffect(() => {
+    // Sync with parent component's sidebar state
+    setShowSidebar(sidebarOpen);
+  }, [sidebarOpen]);
+
+  const handleMenuClick = () => {
+    const newState = !showSidebar;
+    setShowSidebar(newState);
+    if (onToggleSidebar) {
+      onToggleSidebar();
+    }
+  };
 
   useEffect(() => {
     // Simulate loading data
@@ -52,72 +67,107 @@ const Home = () => {
   }
 
   return (
-    <div className="relative w-full pt-10 ml-0 lg:ml-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Upcoming Events</h1>
-        <p className="text-gray-600">Join us for these exciting events and workshops</p>
-      </div>
-
-      {events.length === 0 ? (
-        <div className="text-center py-12 bg-gray-50 rounded-lg">
-          <p className="text-gray-500 text-lg">No upcoming events at the moment. Check back soon!</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-          {events.map((event) => (
-            <div key={event.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-              <div className="h-48 bg-gradient-to-r from-[#c2b490] to-[#a08f6a] flex items-center justify-center">
-                <span className="text-white text-4xl font-bold">
-                  {event.title.charAt(0).toUpperCase()}
-                </span>
-              </div>
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-xl font-semibold text-gray-900">{event.title}</h3>
-                  <span className="bg-[#c2b490] text-white text-sm font-medium px-3 py-1 rounded-full">
-                    {event.type || 'Event'}
-                  </span>
-                </div>
-                <p className="text-gray-600 mb-4 line-clamp-2">{event.description}</p>
-                
-                <div className="flex items-center text-gray-500 text-sm mb-4">
-                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  {format(event.date, 'PPP')}
-                </div>
-                
-                <div className="flex items-center text-gray-500 text-sm mb-4">
-                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  {event.location || 'Online'}
-                </div>
-                
-                <button 
-                  className="w-full mt-4 px-4 py-2 bg-[#c2b490] text-white font-medium rounded-md hover:bg-[#a08f6a] transition-colors"
-                  onClick={() => alert('Registration coming soon!')}
-                >
-                  Register Now
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      <div className="mt-12 text-center border-t border-gray-100 pt-8 max-w-4xl mx-auto">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Host Your Own Event</h2>
-        <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-          Want to organize an event with us? We'd love to collaborate! Share your ideas and let's create something amazing together.
-        </p>
-        <button 
-          className="px-6 py-3 bg-white border-2 border-[#c2b490] text-[#c2b490] font-medium rounded-md hover:bg-gray-50 transition-colors"
-          onClick={() => window.location.href = '/contact'}
+    <div className="relative w-full pt-4">
+      {/* Mobile menu button - only visible on small screens */}
+      <button 
+        onClick={handleMenuClick}
+        className="md:hidden fixed top-4 left-4 z-40 p-2 rounded-md text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#c2b490]"
+        aria-label="Toggle menu"
+      >
+        <svg 
+          className="h-6 w-6" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
         >
-          Contact Us to Host an Event
-        </button>
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={2} 
+            d={showSidebar ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
+          />
+        </svg>
+      </button>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Main Content */}
+          <div className="flex-1">
+            <div className="mb-8">
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">Upcoming Events</h1>
+              <p className="text-gray-600">Join us for these exciting events and workshops</p>
+            </div>
+
+            {events.length === 0 ? (
+              <div className="text-center py-12 bg-gray-50 rounded-lg">
+                <p className="text-gray-500 text-lg">No upcoming events at the moment. Check back soon!</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+                {events.map((event) => (
+                  <div key={event.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                    <div className="h-48 bg-gradient-to-r from-[#c2b490] to-[#a08f6a] flex items-center justify-center">
+                      <span className="text-white text-4xl font-bold">
+                        {event.title.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                    <div className="p-6">
+                      <div className="flex justify-between items-start mb-2">
+                        <h3 className="text-xl font-semibold text-gray-900">{event.title}</h3>
+                        <span className="bg-[#c2b490] text-white text-sm font-medium px-3 py-1 rounded-full">
+                          {event.type || 'Event'}
+                        </span>
+                      </div>
+                      <p className="text-gray-600 mb-4 line-clamp-2">{event.description}</p>
+                      
+                      <div className="flex items-center text-gray-500 text-sm mb-4">
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        {format(event.date, 'PPP')}
+                      </div>
+                      
+                      <div className="flex items-center text-gray-500 text-sm mb-4">
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        {event.location || 'Online'}
+                      </div>
+                      
+                      <button 
+                        className="w-full mt-4 px-4 py-2 bg-[#c2b490] text-white font-medium rounded-md hover:bg-[#a08f6a] transition-colors"
+                        onClick={() => alert('Registration coming soon!')}
+                      >
+                        Register Now
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="mt-12 text-center border-t border-gray-100 pt-8 max-w-4xl mx-auto">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Host Your Own Event</h2>
+              <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                Want to organize an event with us? We'd love to collaborate! Share your ideas and let's create something amazing together.
+              </p>
+              <button 
+                className="px-6 py-3 bg-white border-2 border-[#c2b490] text-[#c2b490] font-medium rounded-md hover:bg-gray-50 transition-colors"
+                onClick={() => window.location.href = '/contact'}
+              >
+                Contact Us to Host an Event
+              </button>
+            </div>
+          </div>
+
+          {/* Sidebar with Popular Communities */}
+          <div className="lg:w-80 flex-shrink-0">
+            <div className="sticky top-24">
+              <PopularCommunities />
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Floating Assistant Button */}
