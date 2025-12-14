@@ -44,8 +44,8 @@ function App() {
   return (
     <Router>
       <div className="min-h-screen bg-white">
-        {user && <Navbar onMenuClick={toggleSidebar} />}
-        <div className={user ? "pt-16" : ""}>
+        {user && <Navbar onMenuClick={toggleSidebar} sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />}
+        <div className={`${user ? "pt-16" : ""} transition-all duration-300 ${user && sidebarOpen ? "ml-[200px]" : ""}`}>
           {/* Main Content */}
           <Routes>
             <Route 
