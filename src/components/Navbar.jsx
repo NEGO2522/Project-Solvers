@@ -805,7 +805,7 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
               </Link>
 
               <Link
-                to="/organize"
+                to="/organizer"
                 onClick={handleCloseSidebar}
                 className="flex items-center px-4 py-3 text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 group"
               >

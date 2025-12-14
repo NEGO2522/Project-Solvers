@@ -2,6 +2,16 @@ import { useState } from 'react';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import hackathonImage from '../assets/hackathonjodhpur.png';
+import hackathonIcon from '../assets/hackathon.png';
+import competitionIcon from '../assets/pitch.png';
+import meetupsIcon from '../assets/meetup.png';
+import workshopsIcon from '../assets/workshop.png';
+
+// Category icons as emojis
+const Hackathons = hackathonIcon;
+const Competitions = competitionIcon;
+const TechMeetups = meetupsIcon;
+const WorkshopsBootcamps = workshopsIcon;
 
 const Technology = () => {
   const [isInterested, setIsInterested] = useState(false);
@@ -80,6 +90,12 @@ const Technology = () => {
     }
   };
 
+  const categories = [
+      { id: 1, name: 'Hackathons', icon: Hackathons },
+      { id: 2, name: 'Pitch Competitions', icon: Competitions },
+      { id: 3, name: 'Tech Meetups', icon: TechMeetups },
+      { id: 4, name: 'Workshops & Bootcamps', icon: WorkshopsBootcamps },
+    ];
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -95,15 +111,8 @@ const Technology = () => {
         </button>
 
         {/* Header Section with Title and Interested Button */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
-          <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Technology</h1>
-            <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-1 text-xs font-medium bg-[#c2b490]/10 text-[#c2b490] rounded-full">Technology</span>
-              <span className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full">Events</span>
-              <span className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full">Workshops</span>
-            </div>
-          </div>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-14 gap-4">
+          <h1 className="text-4xl font-bold text-gray-900">Technology</h1>
           <button
             onClick={handleInterested}
             className={`flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-300 ${
@@ -113,7 +122,7 @@ const Technology = () => {
             }`}
           >
             <svg
-              className={`w-5 h-5 ${isInterested ? '' : ''}`}
+              className={`w-5 h-5`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -137,6 +146,51 @@ const Technology = () => {
             {isInterested ? 'Interested' : 'Interested'}
           </button>
         </div>
+
+        <div className="w-full px-4 sm:px-6 lg:px-8 mb-12">
+          <h1 className="text-xl font-semibold text-gray-800 mb-4 text-center">Categories</h1>
+          <div className="flex flex-wrap justify-center gap-10 sm:gap-16 items-center w-full px-2 sm:px-4">
+          {categories.map((category) => (
+            <button
+              key={category.id}
+              className="flex flex-col items-center justify-center w-24 sm:w-28 transition-all duration-200 hover:scale-105 focus:outline-none cursor-pointer"
+              onClick={() => {
+                const categoryRoutes = {
+                  'Technology': '/technology',
+                  'Sports': '/sports',
+                  'Music': '/music',
+                  'Business': '/business',
+                  'Fashion': '/fashion',
+                  'Social': '/social',
+                  'Career': '/career',
+                  'Arts': '/arts'
+                };
+                const route = categoryRoutes[category.name];
+                if (route) {
+                  navigate(route);
+                } else {
+                  console.log(`Selected: ${category.name}`);
+                }
+              }}
+            >
+              <div className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-1.5 p-1">
+                <img 
+                  src={category.icon} 
+                  alt={category.name}
+                  className="w-10 h-10 object-contain"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = `https://via.placeholder.com/40?text=${category.name.charAt(0)}`;
+                  }}
+                />
+              </div>
+              <span className="text-xs sm:text-sm font-medium text-gray-700 text-center">
+                {category.name}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
 
         {/* Events Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
