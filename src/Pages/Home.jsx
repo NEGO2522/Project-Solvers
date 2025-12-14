@@ -1,5 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { format } from 'date-fns';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const Home = ({ sidebarOpen, onToggleSidebar }) => {
   const [events, setEvents] = useState([]);
@@ -65,8 +68,66 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
     );
   }
 
+  // Carousel settings
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    arrows: false,
+    dotsClass: 'slick-dots !bottom-2',
+    appendDots: dots => (
+      <div className="absolute bottom-0 w-full">
+        <ul className="m-0 p-0">{dots}</ul>
+      </div>
+    ),
+    customPaging: i => (
+      <div className="w-2 h-2 bg-gray-300 rounded-full transition-all duration-300 hover:bg-[#c2b490]" />
+    )
+  };
+
+  // Carousel slides data
+  const carouselSlides = [
+    {
+      id: 1,
+      title: 'Discover Amazing Events',
+      description: 'Find and join events that match your interests',
+      bgColor: 'bg-[#f9f5e9]',
+      textColor: 'text-[#8b7355]'
+    },
+    {
+      id: 2,
+      title: 'Connect with Like Minds',
+      description: 'Meet people who share your passions',
+      bgColor: 'bg-[#f0e9dd]',
+      textColor: 'text-[#7a6b56]'
+    },
+    {
+      id: 3,
+      title: 'Create Lasting Memories',
+      description: 'Experience unforgettable moments at our events',
+      bgColor: 'bg-[#e8e0d0]',
+      textColor: 'text-[#6d5f4d]'
+    }
+  ];
+
   return (
     <div className="relative w-full pt-4">
+      {/* Carousel */}
+      <div className="relative h-64 mb-8 overflow-hidden rounded-lg mx-4 sm:mx-6 lg:mx-8 shadow-md">
+        <Slider {...settings}>
+          {carouselSlides.map((slide) => (
+            <div key={slide.id} className={`${slide.bgColor} h-64 flex flex-col items-center justify-center px-8 text-center`}>
+              <h2 className={`text-3xl font-bold mb-3 ${slide.textColor}`}>{slide.title}</h2>
+              <p className={`text-xl ${slide.textColor} opacity-90 max-w-2xl`}>{slide.description}</p>
+            </div>
+          ))}
+        </Slider>
+      </div>
+
       {/* Mobile menu button - only visible on small screens */}
       <button 
         onClick={handleMenuClick}
