@@ -166,38 +166,22 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
               type="button"
               onClick={handleMenuClick}
               className="p-2 -ml-2 text-gray-500 hover:text-[#c2b490] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#c2b490] rounded-md transition-colors"
-              aria-label="Toggle menu"
+              aria-label="Toggle sidebar"
               style={{ WebkitTapHighlightColor: 'transparent' }}
             >
-              {isSidebarOpen ? (
-                <svg 
-                  className="h-6 w-6" 
-                  fill="none" 
-                  viewBox="0 0 24 24" 
-                  stroke="currentColor"
-                >
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={2} 
-                    d="M6 18L18 6M6 6l12 12" 
-                  />
-                </svg>
-              ) : (
-                <svg 
-                  className="h-6 w-6" 
-                  fill="none" 
-                  viewBox="0 0 24 24" 
-                  stroke="currentColor"
-                >
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={2} 
-                    d="M4 6h16M4 12h16M4 18h16" 
-                  />
-                </svg>
-              )}
+              <svg 
+                className="h-6 w-6" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M4 6h16M4 12h16M4 18h16" 
+                />
+              </svg>
             </button>
             <Link to="/" className="ml-2 flex-shrink-0 flex items-center">
               <span className="text-xl font-bold text-[#c2b490]">EventMasters</span>
@@ -679,7 +663,7 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-16 left-0 h-[calc(100vh-4rem)] w-[200px] bg-white shadow-2xl z-40 transform transition-transform duration-300 ease-in-out ${
+        className={`fixed top-16 left-0 h-[calc(100vh-4rem)] w-64 bg-white shadow-2xl z-40 transform transition-transform duration-300 ease-in-out ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
