@@ -22,6 +22,7 @@ import aakashGuptaImage from '../assets/aakash_gupta.png';
 const Home = ({ sidebarOpen, onToggleSidebar }) => {
   const [events, setEvents] = useState([]);
   const [trendingEvents, setTrendingEvents] = useState([]);
+  const [hackathons, setHackathons] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showSidebar, setShowSidebar] = useState(false);
   const sliderRef = useRef(null);
@@ -111,8 +112,43 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
         }
       ];
 
+      // Hackathons data
+      const hackathonsData = [
+        {
+          id: 7,
+          title: "Gameathon - SVPCET Nagpur",
+          description: "Game development hackathon at St. Vincent Pallotti College of Engineering and Technology",
+          date: new Date(Date.now() + 86400000 * 7), // 7 days from now
+          location: "St. Vincent Pallotti College of Engineering and Technology (SVPCET), Nagpur",
+          type: "Unstop",
+          image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+          link: "https://unstop.com/hackathons/gameathon-st-vincent-pallotti-college-of-engineering-and-technology-svpcet-nagpur-1609348"
+        },
+        {
+          id: 8,
+          title: "Visa 24hrs AI Hackathon - IIT Madras",
+          description: "24-hour AI hackathon at IIT Madras focusing on innovative AI solutions",
+          date: new Date(Date.now() + 86400000 * 12), // 12 days from now
+          location: "Indian Institute of Technology (IIT), Madras",
+          type: "Unstop",
+          image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+          link: "https://unstop.com/hackathons/visa-24hrs-ai-hackathon-iit-madras-1609365"
+        },
+        {
+          id: 9,
+          title: "Innov-AI-tion - ELAN & NVISION 2026 - IIT Hyderabad",
+          description: "AI innovation hackathon as part of ELAN & NVISION 2026 at IIT Hyderabad",
+          date: new Date(Date.now() + 86400000 * 15), // 15 days from now
+          location: "Indian Institute of Technology (IIT), Hyderabad",
+          type: "Unstop",
+          image: "https://images.unsplash.com/photo-1555255707-c07966088b7b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+          link: "https://unstop.com/hackathons/innov-ai-tion-elan-nvision-2026-iit-hyderabad-1599891"
+        }
+      ];
+
       setEvents(sampleEvents);
       setTrendingEvents(trendingEventsData);
+      setHackathons(hackathonsData);
       setLoading(false);
     }, 1000);
 
@@ -502,7 +538,7 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-          {events.map((event) => (
+          {hackathons.map((event) => (
             <a 
               key={`hackathon-${event.id}`} 
               href={event.link || '#'} 
