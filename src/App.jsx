@@ -8,6 +8,7 @@ import ContactUs from './Pages/ContactU';
 import Home from './Pages/Home';
 import About from './Pages/About';
 import Navbar from './components/Navbar';
+import Organizer from './Pages/Organizer';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -82,6 +83,18 @@ function App() {
                         <Home sidebarOpen={sidebarOpen} onToggleSidebar={toggleSidebar} />
                       </div>
                     </div>
+                  </div>
+                ) : (
+                  <Navigate to="/login" />
+                )
+              } 
+            />
+            <Route 
+              path="/organizer" 
+              element={
+                user ? (
+                  <div className="flex-1 min-h-[calc(100vh-4rem)]">
+                    <Organizer />
                   </div>
                 ) : (
                   <Navigate to="/login" />
