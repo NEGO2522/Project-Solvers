@@ -186,17 +186,6 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
     }
   };
 
-  // Close sidebar when clicking outside
-  useEffect(() => {
-    if (isSidebarOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isSidebarOpen]);
 
   return (
     <nav className="bg-white shadow-sm fixed top-0 left-0 right-0 z-50 w-full">
