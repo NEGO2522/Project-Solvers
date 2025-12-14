@@ -4,14 +4,14 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ai_icon from '../assets/ai_icon.png';
 
-const Navbar = ({ onMenuClick }) => {
+const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchCard, setShowSearchCard] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
   const [showProfileCard, setShowProfileCard] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const isSidebarOpen = sidebarOpen || false;
   const [filters, setFilters] = useState({
     category: 'all',
     date: 'any',
@@ -132,12 +132,16 @@ const Navbar = ({ onMenuClick }) => {
   const handleMenuClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsSidebarOpen(!isSidebarOpen);
+    if (setSidebarOpen) {
+      setSidebarOpen(!isSidebarOpen);
+    }
     if (onMenuClick) onMenuClick();
   };
 
   const handleCloseSidebar = () => {
-    setIsSidebarOpen(false);
+    if (setSidebarOpen) {
+      setSidebarOpen(false);
+    }
   };
 
   // Close sidebar when clicking outside
@@ -675,36 +679,11 @@ const Navbar = ({ onMenuClick }) => {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-screen w-80 bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out ${
+        className={`fixed top-16 left-0 h-[calc(100vh-4rem)] w-[200px] bg-white shadow-2xl z-40 transform transition-transform duration-300 ease-in-out ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div className="flex flex-col h-full">
-          {/* Sidebar Header */}
-          <div className="flex items-center justify-between p-6 border-b border-gray-200">
-            <h2 className="text-2xl font-bold text-[#c2b490]">Menu</h2>
-            <button
-              type="button"
-              onClick={handleCloseSidebar}
-              className="p-2 text-gray-500 hover:text-[#c2b490] hover:bg-gray-100 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#c2b490]"
-              aria-label="Close sidebar"
-            >
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-
           {/* Sidebar Navigation */}
           <nav className="flex-1 overflow-y-auto py-6">
             <div className="px-6 space-y-2">
