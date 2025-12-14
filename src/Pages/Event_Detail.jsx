@@ -16,7 +16,7 @@ const Event_Detail = () => {
     description: "Get ready to embark on a coding marathon where innovation meets real-world problem-solving! DevQuest is the flagship development hackathon of Prometeo '26, IIT Jodhpur's National Technical and Entrepreneurial Festival. In this thrilling online challenge, developers, designers, and engineers will come together to build impactful web or mobile applications that tackle modern-day technological challenges.",
     price: "Free",
     attendees: 500,
-    image: "https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+    image: "https://blogcdn.aakash.ac.in/wordpress_media/2024/08/Add-a-heading-10.png",
     rules: [
       "Teams must build a web or mobile application aligned with a problem statement released prior to the event.",
       "The solution must be developed entirely during the hackathon. Pre-developed work without significant new additions is disqualified.",
