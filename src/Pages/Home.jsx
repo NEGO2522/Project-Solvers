@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -24,6 +25,7 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
   const [loading, setLoading] = useState(true);
   const [showSidebar, setShowSidebar] = useState(false);
   const sliderRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Sync with parent component's sidebar state
@@ -233,8 +235,25 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
           {categories.map((category) => (
             <button
               key={category.id}
-              className="flex flex-col items-center justify-center w-20 sm:w-24 transition-transform hover:scale-105 focus:outline-none"
-              onClick={() => console.log(`Selected: ${category.name}`)}
+              className="flex flex-col items-center justify-center w-20 sm:w-24 transition-transform hover:scale-105 focus:outline-none cursor-pointer"
+              onClick={() => {
+                const categoryRoutes = {
+                  'Technology': '/technology',
+                  'Sports': '/sports',
+                  'Music': '/music',
+                  'Business': '/business',
+                  'Fashion': '/fashion',
+                  'Social': '/social',
+                  'Career': '/career',
+                  'Arts': '/arts'
+                };
+                const route = categoryRoutes[category.name];
+                if (route) {
+                  navigate(route);
+                } else {
+                  console.log(`Selected: ${category.name}`);
+                }
+              }}
             >
               <div className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-1.5 p-1">
                 <img 

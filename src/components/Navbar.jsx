@@ -521,7 +521,7 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
                       <button
                         type="button"
                         onClick={handleLogout}
-                        className="w-full flex items-center justify-center px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 text-sm font-medium"
+                        className="w-full flex items-center justify-center px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 text-sm font-medium cursor-pointer"
                       >
                         <svg
                           className="h-4 w-4 mr-2"
@@ -694,7 +694,7 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
                         <button
                           type="button"
                           onClick={handleLogout}
-                          className="w-full flex items-center justify-center px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 text-sm font-medium"
+                          className="w-full flex items-center justify-center px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 text-sm font-medium cursor-pointer"
                         >
                           <svg
                             className="h-4 w-4 mr-2"
@@ -749,7 +749,7 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
           <nav className="flex-1 overflow-y-auto py-6">
             <div className="px-6 space-y-2">
               <Link
-                to="/"
+                to="/home"
                 onClick={handleCloseSidebar}
                 className="flex items-center px-4 py-3 text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 group"
               >

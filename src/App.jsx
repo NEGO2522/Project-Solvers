@@ -13,6 +13,14 @@ import Organizer from './Pages/Organizer';
 import CreateEvent from './Pages/Create_Event';
 import Event_Detail from './Pages/Event_Detail';
 import Landing from './Pages/Landing';
+import Technology from './Pages/Technology';
+import Sports from './Pages/Sports';
+import Music from './Pages/Music';
+import Business from './Pages/Business';
+import Fashion from './Pages/Fashion';
+import Social from './Pages/Social';
+import Career from './Pages/Career';
+import Arts from './Pages/Arts';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -112,6 +120,70 @@ function App() {
                         <Route path="/organizer" element={<Organizer />} />
                         <Route path="/create-event" element={<CreateEvent />} />
                         <Route path="/event" element={<Event_Detail />} />
+                        <Route 
+                          path="/technology" 
+                          element={
+                            <div className="flex-1 min-h-[calc(100vh-4rem)]">
+                              <Technology />
+                            </div>
+                          } 
+                        />
+                        <Route 
+                          path="/sports" 
+                          element={
+                            <div className="flex-1 min-h-[calc(100vh-4rem)]">
+                              <Sports />
+                            </div>
+                          } 
+                        />
+                        <Route 
+                          path="/music" 
+                          element={
+                            <div className="flex-1 min-h-[calc(100vh-4rem)]">
+                              <Music />
+                            </div>
+                          } 
+                        />
+                        <Route 
+                          path="/business" 
+                          element={
+                            <div className="flex-1 min-h-[calc(100vh-4rem)]">
+                              <Business />
+                            </div>
+                          } 
+                        />
+                        <Route 
+                          path="/fashion" 
+                          element={
+                            <div className="flex-1 min-h-[calc(100vh-4rem)]">
+                              <Fashion />
+                            </div>
+                          } 
+                        />
+                        <Route 
+                          path="/social" 
+                          element={
+                            <div className="flex-1 min-h-[calc(100vh-4rem)]">
+                              <Social />
+                            </div>
+                          } 
+                        />
+                        <Route 
+                          path="/career" 
+                          element={
+                            <div className="flex-1 min-h-[calc(100vh-4rem)]">
+                              <Career />
+                            </div>
+                          } 
+                        />
+                        <Route 
+                          path="/arts" 
+                          element={
+                            <div className="flex-1 min-h-[calc(100vh-4rem)]">
+                              <Arts />
+                            </div>
+                          } 
+                        />
                       </>
                     )}
                     <Route path="*" element={<Navigate to={user ? "/home" : "/"} />} />
