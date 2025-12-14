@@ -34,7 +34,7 @@ const Sports = () => {
       date: new Date(Date.now() + 86400000 * 6),
       location: "Basketball Arena",
       type: "EventForYou",
-      image: "https://images.unsplash.com/photo-1516467508483-a7212febe31a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1473&q=80",
+      image: "https://images.unsplash.com/photo-1546519638-68e109498ffc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
       link: "#"
     },
     {
@@ -50,11 +50,11 @@ const Sports = () => {
     {
       id: 5,
       title: "Tennis Open Championship",
-      description: "Professional tennis tournament with international players",
+      description: "Premier professional tennis tournament featuring top-ranked international players competing for the championship title",
       date: new Date(Date.now() + 86400000 * 10),
-      location: "Tennis Club",
+      location: "International Tennis Club",
       type: "EventForYou",
-      image: "https://images.unsplash.com/photo-1622163642993-408d60994b6a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1476&q=80",
+      image: "https://images.unsplash.com/photo-1534158914592-062992fbe900?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
       link: "#"
     },
     {
