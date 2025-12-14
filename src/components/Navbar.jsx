@@ -214,7 +214,7 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
               </svg>
             </button>
             <Link to="/" className="ml-2 flex-shrink-0 flex items-center">
-              <span className="text-xl font-bold text-[#c2b490]">EventMasters</span>
+              <span className="text-xl font-bold text-[#c2b490]">EventForYou</span>
             </Link>
           </div>
 

@@ -365,6 +365,130 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
         </div>
       </div>
 
+      {/* Upcoming Events Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Trending Events</h1>
+          <p className="text-gray-600">Discover what's trending in events near you</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+          {events.map((event) => (
+            <a 
+              key={`upcoming-${event.id}`} 
+              href={event.link || '#'} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="block bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+            >
+              <div className="h-48 bg-gray-100 flex items-center justify-center overflow-hidden">
+                {event.image ? (
+                  <img 
+                    src={event.image} 
+                    alt={event.title}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://images.unsplash.com/photo-1570598912132-0ba1dc952b7d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80';
+                    }}
+                  />
+                ) : (
+                  <div className="h-full w-full bg-gradient-to-r from-[#c2b490] to-[#a08f6a] flex items-center justify-center">
+                    <span className="text-white text-4xl font-bold">
+                      {event.title.charAt(0).toUpperCase()}
+                    </span>
+                  </div>
+                )}
+              </div>
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-xl font-semibold text-gray-900">{event.title}</h3>
+                  <span className="bg-[#c2b490] text-white text-sm font-medium px-3 py-1 rounded-full">
+                    {event.type || 'Event'}
+                  </span>
+                </div>
+                <p className="text-gray-600 mb-4 line-clamp-2">{event.description}</p>
+                <div className="flex items-center text-gray-500 text-sm mb-4">
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  {format(event.date, 'PPP')}
+                </div>
+                <div className="flex items-center text-gray-500 text-sm mb-4">
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  {event.location || 'Online'}
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* Hackathons Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Hackathons</h1>
+          <p className="text-gray-600">Code, Create, and Compete in these exciting hackathons</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+          {events.map((event) => (
+            <a 
+              key={`hackathon-${event.id}`} 
+              href={event.link || '#'} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="block bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+            >
+              <div className="h-48 bg-gray-100 flex items-center justify-center overflow-hidden">
+                {event.image ? (
+                  <img 
+                    src={event.image} 
+                    alt={event.title}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80';
+                    }}
+                  />
+                ) : (
+                  <div className="h-full w-full bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] flex items-center justify-center">
+                    <span className="text-white text-4xl font-bold">
+                      {event.title.charAt(0).toUpperCase()}
+                    </span>
+                  </div>
+                )}
+              </div>
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-xl font-semibold text-gray-900">{event.title}</h3>
+                  <span className="bg-[#4F46E5] text-white text-sm font-medium px-3 py-1 rounded-full">
+                    {event.type || 'Hackathon'}
+                  </span>
+                </div>
+                <p className="text-gray-600 mb-4 line-clamp-2">{event.description}</p>
+                <div className="flex items-center text-gray-500 text-sm mb-4">
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  {format(event.date, 'PPP')}
+                </div>
+                <div className="flex items-center text-gray-500 text-sm mb-4">
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  {event.location || 'Online'}
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
       {/* Floating Assistant Button */}
       <div className="fixed bottom-8 right-8 z-40">
         <button
