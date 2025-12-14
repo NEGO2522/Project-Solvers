@@ -81,41 +81,53 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
 
   // Carousel settings
   // Custom arrow components
-  const NextArrow = (props) => (
-    <button
-      {...props}
-      className="absolute right-4 top-1/2 z-10 -translate-y-1/2 transform rounded-full bg-black/30 p-2 text-white transition-all hover:bg-black/50"
-      aria-label="Next slide"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-6 w-6"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
+  const NextArrow = ({ onClick, className, ...rest }) => {
+    // Remove non-DOM props that react-slick passes
+    const { currentSlide, slideCount, ...domProps } = rest;
+    
+    return (
+      <button
+        onClick={onClick}
+        className={`absolute right-4 top-1/2 z-10 -translate-y-1/2 transform rounded-full bg-black/30 p-2 text-white transition-all hover:bg-black/50 ${className || ''}`}
+        aria-label="Next slide"
+        {...domProps}
       >
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-      </svg>
-    </button>
-  );
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    );
+  };
 
-  const PrevArrow = (props) => (
-    <button
-      {...props}
-      className="absolute left-4 top-1/2 z-10 -translate-y-1/2 transform rounded-full bg-black/30 p-2 text-white transition-all hover:bg-black/50"
-      aria-label="Previous slide"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-6 w-6"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
+  const PrevArrow = ({ onClick, className, ...rest }) => {
+    // Remove non-DOM props that react-slick passes
+    const { currentSlide, slideCount, ...domProps } = rest;
+    
+    return (
+      <button
+        onClick={onClick}
+        className={`absolute left-4 top-1/2 z-10 -translate-y-1/2 transform rounded-full bg-black/30 p-2 text-white transition-all hover:bg-black/50 ${className || ''}`}
+        aria-label="Previous slide"
+        {...domProps}
       >
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-      </svg>
-    </button>
-  );
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+    );
+  };
 
   const settings = {
     dots: true,
