@@ -55,7 +55,8 @@ const Sidebar = ({ isOpen, onClose }) => {
         } md:translate-x-0 transition-all duration-300 ease-in-out w-64 rounded-2xl overflow-hidden`}
         style={{ 
           boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.08)',
-          border: '1px solid rgba(0, 0, 0, 0.04)'
+          border: '1px solid rgba(0, 0, 0, 0.04)',
+          borderRadius: '1rem'
         }}
       >
         <div className="flex flex-col h-full">
@@ -137,7 +138,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                           <Link
                             key={index}
                             to={`/events/${category.toLowerCase().replace(/\s+/g, '-')}`}
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#f0ede5] hover:text-[#a08f6a] rounded-lg transition-colors duration-200"
+                            className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-[#f0ede5] hover:text-[#a08f6a] rounded-lg transition-all duration-300 cursor-pointer transform hover:translate-x-1 hover:font-medium"
                             onClick={() => {
                               setIsEventsOpen(false);
                               onClose();
