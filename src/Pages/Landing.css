@@ -1,0 +1,192 @@
+/* Background and Layout */
+.landing-container {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.background-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 0;
+  z-index: 1;
+}
+
+.background-image {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.8;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.background-image:hover {
+  opacity: 1;
+  transform: scale(1.02);
+  z-index: 2;
+}
+
+/* Make the first image take 2 rows */
+.background-image:first-child {
+  grid-row: span 2;
+  height: 100%;
+}
+
+/* Make the last 2 images in the second row take full width */
+.background-image:nth-child(4),
+.background-image:nth-child(5) {
+  grid-column: span 1.5;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(27, 60, 83, 0.7);
+  z-index: 1;
+}
+
+/* Animation keyframes */
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromBottom {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Container styles */
+.slide-in-container {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Base slide-in styles */
+.slide-in {
+  font-family: 'Playfair Display', serif;
+  font-size: 5.5rem;
+  font-weight: 800;
+  font-style: italic;
+  color: #E3E3E3;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  animation-duration: 1s;
+  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation-fill-mode: forwards;
+  padding: 0.5rem 1.5rem;
+  white-space: nowrap;
+  letter-spacing: 1px;
+  line-height: 1.1;
+  position: relative;
+  z-index: 2;
+}
+
+/* Style for the middle word */
+.slide-in:nth-child(2) {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 3.5rem;
+  color: #ffffff;
+  margin: 0 0.5rem;
+  position: relative;
+  top: -5px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-style: normal;
+}
+
+/* Individual animations */
+.slide-from-left {
+  animation-name: slideInFromLeft;
+  animation-delay: 0.2s;
+  transform: translateX(-50px);
+}
+
+.slide-from-right {
+  animation-name: slideInFromRight;
+  animation-delay: 0.4s;
+  transform: translateX(50px);
+}
+
+.slide-from-bottom {
+  animation-name: slideInFromBottom;
+  animation-delay: 0.6s;
+  transform: translateY(30px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .slide-in {
+    font-size: 4rem;
+  }
+  
+  .slide-in:nth-child(2) {
+    font-size: 3rem;
+    top: -3px;
+  }
+}
+
+@media (max-width: 768px) {
+  .slide-in {
+    font-size: 3rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  .slide-in:nth-child(2) {
+    font-size: 2.5rem;
+    top: -2px;
+  }
+  
+  .slide-in-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .background-image {
+    background-position: 60% center;
+  }
+}
