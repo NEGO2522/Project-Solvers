@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { getAuth, signOut } from 'firebase/auth';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ai_icon from '../assets/ai_icon.png';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -132,7 +133,7 @@ const Navbar = () => {
                       title="AI Chatbot"
                     >
                       <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4m0 0V3h4m0 0L3 7l2.5-2.5M3 19v-4m0 4h4m-4 0l2.5-2.5M19 3h-4m4 0v4m0 0l-2.5-2.5M5 21v-4m0 4h4m-4 0l2.5-2.5M19 21v-4m0 4h-4m4 0l-2.5-2.5" />
+                        <img src={ai_icon} alt="" />
                       </svg>
                     </button>
                   </div>
