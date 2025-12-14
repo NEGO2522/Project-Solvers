@@ -4,7 +4,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-// Import category icons
+// Import images
 import artsIcon from '../assets/arts.png';
 import businessIcon from '../assets/business.png';
 import fashionIcon from '../assets/fashion.png';
@@ -13,6 +13,9 @@ import sportsIcon from '../assets/sports.png';
 import techIcon from '../assets/technology.png';
 import socialIcon from '../assets/social.png';
 import careerIcon from '../assets/career.png';
+import chessImage from '../assets/chess.png';
+import djNightImage from '../assets/djnight.png';
+import hackathonImage from '../assets/hackathonjodhpur.png';
 
 const Home = ({ sidebarOpen, onToggleSidebar }) => {
   const [events, setEvents] = useState([]);
@@ -40,27 +43,33 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
       const sampleEvents = [
         {
           id: 1,
-          title: "Team Meeting",
-          description: "Weekly team sync to discuss project progress",
-          date: new Date(Date.now() + 86400000), // Tomorrow
-          location: "Conference Room A",
-          type: "Meeting"
+          title: "Chess Tournament",
+          description: "Annual city chess championship with exciting prizes",
+          date: new Date(Date.now() + 86400000 * 4), // 4 days from now
+          location: "City Convention Center",
+          type: "BookMyShow",
+          image: chessImage,
+          link: "https://in.bookmyshow.com/sports/chess-tournament/ET00462513"
         },
         {
           id: 2,
-          title: "Product Launch",
-          description: "Launch of our new product line",
+          title: "Aerreo - Purgatory 777",
+          description: "Electrifying DJ night with top artists and amazing music",
           date: new Date(Date.now() + 86400000 * 3), // 3 days from now
-          location: "Main Hall",
-          type: "Event"
+          location: "Jaipur",
+          type: "BookMyShow",
+          image: djNightImage,
+          link: "https://in.bookmyshow.com/activities/aerreo-purgatory-777-jaipur/ET00476204"
         },
         {
           id: 3,
-          title: "Workshop",
-          description: "Learn new development techniques",
-          date: new Date(Date.now() + 86400000 * 7), // 1 week from now
-          location: "Training Room",
-          type: "Workshop"
+          title: "Hackathon Jodhpur",
+          description: "48-hour coding competition for developers and designers",
+          date: new Date(Date.now() + 86400000 * 10), // 1 week from now
+          location: "Indian Institute of Technology (IIT), Jodhpur",
+          type: "Unstop",
+          image: hackathonImage,
+          link: "https://unstop.com/competitions/development-hackathon-indian-institute-of-technology-iit-jodhpur-1602705"
         }
       ];
       
@@ -153,7 +162,7 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
     )
   };
 
-  // Import images
+  // Carousel images
   const apdhillon = '/src/assets/apdhillon.jpeg';
   const genaiAcademy = '/src/assets/genai_academy.jpeg';
   const marathon = '/src/assets/marathon.jpeg';
@@ -206,7 +215,7 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
       </div>
 
       {/* Carousel */}
-      <div className="w-full h-[400px] overflow-hidden rounded-lg shadow-lg">
+      <div className="w-full h-[400px] mb-12 overflow-hidden rounded-lg shadow-lg">
         <Slider ref={sliderRef} {...settings}>
           {carouselSlides.map((slide) => (
             <div key={slide.id} className="h-[400px] w-full">
@@ -287,22 +296,42 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
           {/* Main Content */}
           <div className="w-full">
             <div className="mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Upcoming Events</h1>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">Recommended Events</h1>
               <p className="text-gray-600">Join us for these exciting events and workshops</p>
             </div>
 
             {events.length === 0 ? (
               <div className="text-center py-12 bg-gray-50 rounded-lg">
-                <p className="text-gray-500 text-lg">No upcoming events at the moment. Check back soon!</p>
+                <p className="text-gray-500 text-lg">No events at the moment. Check back soon!</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
                 {events.map((event) => (
-                  <div key={event.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                    <div className="h-48 bg-gradient-to-r from-[#c2b490] to-[#a08f6a] flex items-center justify-center">
-                      <span className="text-white text-4xl font-bold">
-                        {event.title.charAt(0).toUpperCase()}
-                      </span>
+                  <a 
+                    key={event.id} 
+                    href={event.link || '#'} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="block bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                  >
+                    <div className="h-48 bg-gray-100 flex items-center justify-center overflow-hidden">
+                      {event.image ? (
+                        <img 
+                          src={event.image} 
+                          alt={event.title}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = 'https://images.unsplash.com/photo-1570598912132-0ba1dc952b7d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80';
+                          }}
+                        />
+                      ) : (
+                        <div className="h-full w-full bg-gradient-to-r from-[#c2b490] to-[#a08f6a] flex items-center justify-center">
+                          <span className="text-white text-4xl font-bold">
+                            {event.title.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                      )}
                     </div>
                     <div className="p-6">
                       <div className="flex justify-between items-start mb-2">
@@ -327,19 +356,11 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
                         </svg>
                         {event.location || 'Online'}
                       </div>
-                      
-                      <button 
-                        className="w-full mt-4 px-4 py-2 bg-[#c2b490] text-white font-medium rounded-md hover:bg-[#a08f6a] transition-colors"
-                        onClick={() => alert('Registration coming soon!')}
-                      >
-                        Register Now
-                      </button>
                     </div>
-                  </div>
+                  </a>
                 ))}
               </div>
             )}
-
           </div>
         </div>
       </div>
