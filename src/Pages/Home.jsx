@@ -69,7 +69,7 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
           description: "48-hour coding competition for developers and designers",
           date: new Date(Date.now() + 86400000 * 10), // 1 week from now
           location: "Indian Institute of Technology (IIT), Jodhpur",
-          type: "Unstop",
+          type: "EventForYou",
           image: hackathonImage,
           link: "https://unstop.com/competitions/development-hackathon-indian-institute-of-technology-iit-jodhpur-1602705"
         }
@@ -393,6 +393,19 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
                         </svg>
                         {event.location || 'Online'}
                       </div>
+                      {event.title === "Hackathon Jodhpur" && (
+                        <div className="flex justify-end mt-4">
+                          <a 
+                            href={event.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-4 py-2 text-sm font-medium bg-[#c2b490] text-white rounded hover:bg-[#a08f6a] transition-colors"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            Register Now
+                          </a>
+                        </div>
+                      )}
                     </div>
                   </a>
                 ))}
