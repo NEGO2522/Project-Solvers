@@ -344,11 +344,8 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
                 {events.map((event) => (
-                  <a 
+                  <div 
                     key={event.id} 
-                    href={event.link || '#'} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
                     className="block bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
                   >
                     <div className="h-48 bg-gray-100 flex items-center justify-center overflow-hidden">
@@ -408,7 +405,7 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
                         </div>
                       )}
                     </div>
-                  </a>
+                  </div>
                 ))}
               </div>
             )}
