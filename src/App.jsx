@@ -6,6 +6,7 @@ import Login from './auth/Login';
 import SignUp from './auth/SignUp';
 import ContactUs from './Pages/ContactU';
 import Home from './Pages/Home';
+import CommunityDetail from './Pages/CommunityDetail';
 import Navbar from './components/Navbar';
 
 function App() {
@@ -61,6 +62,16 @@ function App() {
                   <Route 
                     path="/contact" 
                     element={<ContactUs />} 
+                  />
+                  <Route 
+                    path="/community/:id" 
+                    element={
+                      user ? (
+                        <CommunityDetail />
+                      ) : (
+                        <Navigate to="/login" />
+                      )
+                    } 
                   />
                   <Route 
                     path="/" 
