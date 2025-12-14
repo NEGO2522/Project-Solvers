@@ -796,20 +796,11 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
                 onClick={handleCloseSidebar}
                 className="flex items-center px-4 py-3 text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 group"
               >
-                <svg
-                  className="w-5 h-5 mr-3 text-gray-500 group-hover:text-[#c2b490] transition-colors"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                  />
-                </svg>
+                <img 
+                  src="https://cdn-icons-png.flaticon.com/128/684/684809.png" 
+                  alt="Map" 
+                  className="w-5 h-5 mr-3"
+                />
                 <span className="text-base font-medium">Explore Map</span>
               </Link>
 
@@ -842,27 +833,27 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
               <div className="px-4">
                 <h3 className="text-base font-bold text-gray-800 mb-3">Interests</h3>
                 <div className="space-y-2">
-                  <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg">
+                  <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors duration-200">
                     <img src="https://cdn-icons-png.flaticon.com/128/9254/9254656.png" alt="Chess" className="w-5 h-5 mr-2" />
                     <span>Chess</span>
                   </div>
-                  <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg">
+                  <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors duration-200">
                     <img src="https://cdn-icons-png.flaticon.com/128/18698/18698899.png" alt="DJ Night" className="w-5 h-5 mr-2" />
                     <span>DJ Night</span>
                   </div>
-                  <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg">
+                  <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors duration-200">
                     <img src="https://cdn-icons-png.flaticon.com/128/9354/9354357.png" alt="Hackathon" className="w-5 h-5 mr-2" />
                     <span>Hackathon</span>
                   </div>
-                  <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg">
+                  <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors duration-200">
                     <img src="https://cdn-icons-png.flaticon.com/128/9942/9942524.png" alt="Fashion Show" className="w-5 h-5 mr-2" />
                     <span>Fashion Show</span>
                   </div>
-                  <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg">
+                  <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors duration-200">
                     <img src="https://cdn-icons-png.flaticon.com/128/2642/2642105.png" alt="Cricket" className="w-5 h-5 mr-2" />
                     <span>Cricket</span>
                   </div>
-                  <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg">
+                  <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors duration-200">
                     <img src="https://cdn-icons-png.flaticon.com/128/9942/9942524.png" alt="Seminar" className="w-5 h-5 mr-2" />
                     <span>Seminar</span>
                   </div>
