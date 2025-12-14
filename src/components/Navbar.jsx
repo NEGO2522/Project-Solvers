@@ -226,11 +226,13 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
                     <span className="text-sm text-gray-400 hover:text-[#c2b490] cursor-default">Ask</span>
                     <button
                       type="button"
-                      className="p-1 text-gray-400 hover:text-[#c2b490] flex items-center"
+                      className="p-1 hover:opacity-80 flex items-center justify-center"
                       onClick={() => alert('AI Chatbot coming soon!')}
                       title="AI Chatbot"
                     >
-                      <img src={ai_icon} alt="AI Icon" className="h-5 w-5" />
+                      <div className="h-7 w-7 rounded-full border-2 border-blue-500 flex items-center justify-center p-1 bg-white">
+                        <img src={ai_icon} alt="AI Icon" className="h-full w-full object-contain" />
+                      </div>
                     </button>
                   </div>
                 </div>
