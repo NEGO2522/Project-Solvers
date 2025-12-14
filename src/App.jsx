@@ -4,12 +4,14 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { app } from './firebase';
 import Login from './auth/Login';
 import SignUp from './auth/SignUp';
+import Register from './Pages/Register';
 import ContactUs from './Pages/ContactU';
 import Home from './Pages/Home';
 import About from './Pages/About';
 import Navbar from './components/Navbar';
 import Organizer from './Pages/Organizer';
 import CreateEvent from './Pages/Create_Event';
+import Event_Detail from './Pages/Event_Detail';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -55,6 +57,10 @@ function App() {
               element={!user ? <div className="relative h-screen w-full"><SignUp /></div> : <Navigate to="/" />} 
             />
             <Route 
+              path="/register" 
+              element={<div className="relative h-screen w-full"><Register /></div>} 
+            />
+            <Route 
               path="/login" 
               element={!user ? <div className="relative h-screen w-full"><Login /></div> : <Navigate to="/" />} 
             />
@@ -94,6 +100,7 @@ function App() {
               <>
                 <Route path="/organizer" element={<Organizer />} />
                 <Route path="/create-event" element={<CreateEvent />} />
+                <Route path="/event" element={<Event_Detail />} />
               </>
             )}
             <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />

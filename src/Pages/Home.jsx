@@ -395,15 +395,16 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
                       </div>
                       {event.title === "Hackathon Jodhpur" && (
                         <div className="flex justify-end mt-4">
-                          <a 
-                            href={event.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                          <button 
                             className="px-4 py-2 text-sm font-medium bg-[#c2b490] text-white rounded hover:bg-[#a08f6a] transition-colors"
-                            onClick={(e) => e.stopPropagation()}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              window.location.href = '/event';
+                            }}
                           >
                             Register Now
-                          </a>
+                          </button>
                         </div>
                       )}
                     </div>
