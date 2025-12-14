@@ -406,7 +406,7 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
                   {/* Dropdown items */}
                   <div className="py-1" role="menu">
                     <Link
-                      to="/organizer-dashboard"
+                      to="/organizer"
                       className="group flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-[#f8f5ee] transition-colors"
                       role="menuitem"
                       onClick={closeHostDropdown}
