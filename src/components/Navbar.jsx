@@ -10,6 +10,7 @@ const Navbar = ({ onMenuClick }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchCard, setShowSearchCard] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
+  const [showProfileCard, setShowProfileCard] = useState(false);
   const [filters, setFilters] = useState({
     category: 'all',
     date: 'any',
@@ -19,6 +20,7 @@ const Navbar = ({ onMenuClick }) => {
 
   const searchCardRef = useRef(null);
   const categoriesRef = useRef(null);
+  const profileCardRef = useRef(null);
 
   const categories = [
     'Music', 'Sports', 'Technology', 'Business', 'Food & Drink', 
@@ -37,6 +39,27 @@ const Navbar = ({ onMenuClick }) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  // Close profile card when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      const profileCircle = document.querySelector('[data-profile-circle]');
+      const clickedOutsideCard = profileCardRef.current && !profileCardRef.current.contains(event.target);
+      const clickedOutsideCircle = profileCircle && !profileCircle.contains(event.target);
+      
+      if (clickedOutsideCard && clickedOutsideCircle) {
+        setShowProfileCard(false);
+      }
+    }
+
+    if (showProfileCard) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showProfileCard]);
 
   const auth = getAuth();
   const navigate = useNavigate();
@@ -73,10 +96,19 @@ const Navbar = ({ onMenuClick }) => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      setShowProfileCard(false);
       navigate('/login');
     } catch (error) {
       console.error('Error signing out:', error);
     }
+  };
+
+  const handleProfileClick = () => {
+    setShowProfileCard(!showProfileCard);
+  };
+
+  const handleCloseProfileCard = () => {
+    setShowProfileCard(false);
   };
 
   const handleSearch = (e) => {
@@ -332,8 +364,90 @@ const Navbar = ({ onMenuClick }) => {
               Competitions
             </Link>
             {isLoggedIn ? (
-              <div className="h-8 w-8 rounded-full bg-[#c2b490] flex items-center justify-center text-white">
-                {auth.currentUser?.email[0].toUpperCase()}
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={handleProfileClick}
+                  data-profile-circle
+                  className="h-8 w-8 rounded-full bg-[#c2b490] flex items-center justify-center text-white cursor-pointer hover:bg-[#a08f6a] transition-colors focus:outline-none focus:ring-2 focus:ring-[#c2b490] focus:ring-offset-2"
+                  aria-label="Profile menu"
+                >
+                  {auth.currentUser?.email[0].toUpperCase()}
+                </button>
+                
+                {/* Profile Card */}
+                {showProfileCard && (
+                  <div
+                    ref={profileCardRef}
+                    className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-200 z-50"
+                  >
+                    <div className="p-4">
+                      {/* Header with close button */}
+                      <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
+                        <h3 className="text-sm font-semibold text-gray-800">Profile</h3>
+                        <button
+                          type="button"
+                          onClick={handleCloseProfileCard}
+                          className="text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[#c2b490] rounded-full p-1"
+                          aria-label="Close profile menu"
+                        >
+                          <svg
+                            className="h-5 w-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+
+                      {/* User Info */}
+                      <div className="mb-4">
+                        <div className="flex items-center space-x-3 mb-3">
+                          <div className="h-10 w-10 rounded-full bg-[#c2b490] flex items-center justify-center text-white text-lg font-semibold">
+                            {auth.currentUser?.email[0].toUpperCase()}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-gray-900 truncate">
+                              {auth.currentUser?.displayName || 'User'}
+                            </p>
+                            <p className="text-xs text-gray-500 truncate">
+                              {auth.currentUser?.email}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Sign Out Button */}
+                      <button
+                        type="button"
+                        onClick={handleLogout}
+                        className="w-full flex items-center justify-center px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 text-sm font-medium"
+                      >
+                        <svg
+                          className="h-4 w-4 mr-2"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                          />
+                        </svg>
+                        Sign Out
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="flex items-center space-x-4">
@@ -442,13 +556,79 @@ const Navbar = ({ onMenuClick }) => {
             </div>
 
             {isLoggedIn ? (
-              <div className="flex items-center px-3 py-2">
-                <div className="h-8 w-8 rounded-full bg-[#c2b490] flex items-center justify-center text-white mr-2">
-                  {auth.currentUser?.email[0].toUpperCase()}
+              <div className="px-3 py-2">
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={handleProfileClick}
+                    data-profile-circle
+                    className="flex items-center w-full p-2 rounded-lg hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-[#c2b490]"
+                  >
+                    <div className="h-8 w-8 rounded-full bg-[#c2b490] flex items-center justify-center text-white mr-2">
+                      {auth.currentUser?.email[0].toUpperCase()}
+                    </div>
+                    <span className="text-sm text-gray-700 flex-1 text-left">
+                      {auth.currentUser?.email}
+                    </span>
+                  </button>
+                  
+                  {/* Mobile Profile Card */}
+                  {showProfileCard && (
+                    <div
+                      ref={profileCardRef}
+                      className="mt-2 w-full bg-white rounded-lg shadow-lg border border-gray-200"
+                    >
+                      <div className="p-4">
+                        {/* Header with close button */}
+                        <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
+                          <h3 className="text-sm font-semibold text-gray-800">Profile</h3>
+                          <button
+                            type="button"
+                            onClick={handleCloseProfileCard}
+                            className="text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[#c2b490] rounded-full p-1"
+                            aria-label="Close profile menu"
+                          >
+                            <svg
+                              className="h-5 w-5"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M6 18L18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+
+                        {/* Sign Out Button */}
+                        <button
+                          type="button"
+                          onClick={handleLogout}
+                          className="w-full flex items-center justify-center px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 text-sm font-medium"
+                        >
+                          <svg
+                            className="h-4 w-4 mr-2"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                            />
+                          </svg>
+                          Sign Out
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
-                <span className="text-sm text-gray-500">
-                  {auth.currentUser?.email}
-                </span>
               </div>
             ) : (
               <div className="space-y-2 pt-2">

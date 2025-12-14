@@ -43,40 +43,40 @@ function App() {
   return (
     <Router>
       <div className="min-h-screen bg-white">
-        <Navbar onMenuClick={toggleSidebar} />
-        <div className="pt-16">
+        {user && <Navbar onMenuClick={toggleSidebar} />}
+        <div className={user ? "pt-16" : ""}>
           {/* Main Content */}
-          <div className="flex-1 min-h-[calc(100vh-4rem)]">
-            <div className="max-w-7xl mx-auto px-4 py-6">
-              <div className="flex flex-col lg:flex-row gap-8">
-                <Routes>
-                  <Route 
-                    path="/signup" 
-                    element={!user ? <SignUp /> : <Navigate to="/" />} 
-                  />
-                  <Route 
-                    path="/login" 
-                    element={!user ? <Login /> : <Navigate to="/" />} 
-                  />
-                  <Route 
-                    path="/contact" 
-                    element={<ContactUs />} 
-                  />
-                  <Route 
-                    path="/" 
-                    element={
-                      user ? (
+          <Routes>
+            <Route 
+              path="/signup" 
+              element={!user ? <div className="relative h-screen w-full"><SignUp /></div> : <Navigate to="/" />} 
+            />
+            <Route 
+              path="/login" 
+              element={!user ? <div className="relative h-screen w-full"><Login /></div> : <Navigate to="/" />} 
+            />
+            <Route 
+              path="/contact" 
+              element={<ContactUs />} 
+            />
+            <Route 
+              path="/" 
+              element={
+                user ? (
+                  <div className="flex-1 min-h-[calc(100vh-4rem)]">
+                    <div className="max-w-7xl mx-auto px-4 py-6">
+                      <div className="flex flex-col lg:flex-row gap-8">
                         <Home sidebarOpen={sidebarOpen} onToggleSidebar={toggleSidebar} />
-                      ) : (
-                        <Navigate to="/login" />
-                      )
-                    } 
-                  />
-                  <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
-                </Routes>
-              </div>
-            </div>
-          </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <Navigate to="/login" />
+                )
+              } 
+            />
+            <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
+          </Routes>
         </div>
       </div>
     </Router>
