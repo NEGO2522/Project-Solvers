@@ -16,9 +16,11 @@ import careerIcon from '../assets/career.png';
 import chessImage from '../assets/chess.png';
 import djNightImage from '../assets/djnight.png';
 import hackathonImage from '../assets/hackathonjodhpur.png';
+import aakashGuptaImage from '../assets/aakash_gupta.png';
 
 const Home = ({ sidebarOpen, onToggleSidebar }) => {
   const [events, setEvents] = useState([]);
+  const [trendingEvents, setTrendingEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showSidebar, setShowSidebar] = useState(false);
   const sliderRef = useRef(null);
@@ -67,13 +69,48 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
           description: "48-hour coding competition for developers and designers",
           date: new Date(Date.now() + 86400000 * 10), // 1 week from now
           location: "Indian Institute of Technology (IIT), Jodhpur",
-          type: "Unstop",
+          type: "EventForYou",
           image: hackathonImage,
           link: "https://unstop.com/competitions/development-hackathon-indian-institute-of-technology-iit-jodhpur-1602705"
         }
       ];
       
+      // Sample trending events data
+      const trendingEventsData = [
+        {
+          id: 4,
+          title: "Daily ka kamaal hai - Aakash Gupta",
+          description: "A standup comedy special",
+          date: new Date(Date.now() + 86400000 * 16), // 2 days from now
+          location: "Maharana pratap Auditorium",
+          type: "BookMyShow",
+          image: aakashGuptaImage,
+          link: "https://in.bookmyshow.com/events/daily-ka-kaam-hai-by-aakash-gupta-jaipur/ET00468071"
+        },
+        {
+          id: 5,
+          title: "Blockchain Conference",
+          description: "Learn about the future of blockchain technology and cryptocurrencies",
+          date: new Date(Date.now() + 86400000 * 5), // 5 days from now
+          location: "Convention Center",
+          type: "Unstop",
+          image: "https://images.unsplash.com/photo-1639762681057-408e52192e55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80",
+          link: "#"
+        },
+        {
+          id: 6,
+          title: "AI & ML Workshop",
+          description: "Hands-on workshop on Artificial Intelligence and Machine Learning",
+          date: new Date(Date.now() + 86400000 * 3), // 3 days from now
+          location: "Innovation Lab",
+          type: "Hack2Skill",
+          image: "https://images.unsplash.com/photo-1535378917042-10a22c95931a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1408&q=80",
+          link: "#"
+        }
+      ];
+
       setEvents(sampleEvents);
+      setTrendingEvents(trendingEventsData);
       setLoading(false);
     }, 1000);
 
@@ -191,7 +228,7 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
     <div className="relative w-full pt-4">
       {/* Categories */}
       <div className="w-full px-4 sm:px-6 lg:px-8 mb-12">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">Categories</h2>
+        <h1 className="text-xl font-semibold text-gray-800 mb-4 text-center">Categories</h1>
         <div className="flex flex-wrap justify-center gap-4 sm:gap-6 items-center w-full">
           {categories.map((category) => (
             <button
@@ -356,6 +393,19 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
                         </svg>
                         {event.location || 'Online'}
                       </div>
+                      {event.title === "Hackathon Jodhpur" && (
+                        <div className="flex justify-end mt-4">
+                          <a 
+                            href={event.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-4 py-2 text-sm font-medium bg-[#c2b490] text-white rounded hover:bg-[#a08f6a] transition-colors"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            Register Now
+                          </a>
+                        </div>
+                      )}
                     </div>
                   </a>
                 ))}
@@ -365,17 +415,17 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
         </div>
       </div>
 
-      {/* Upcoming Events Section */}
+      {/* Trending Events Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Trending Events</h1>
           <p className="text-gray-600">Discover what's trending in events near you</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-          {events.map((event) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+          {trendingEvents.map((event) => (
             <a 
-              key={`upcoming-${event.id}`} 
+              key={`trending-${event.id}`} 
               href={event.link || '#'} 
               target="_blank" 
               rel="noopener noreferrer"
