@@ -391,12 +391,6 @@ const Navbar = ({ onMenuClick }) => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link 
-              to="/competitions" 
-              className="ml-4 px-4 py-2 text-sm font-medium text-gray-700 hover:text-[#c2b490] whitespace-nowrap"
-            >
-              Competitions
-            </Link>
             {isLoggedIn ? (
               <div className="relative">
                 <button
@@ -546,13 +540,6 @@ const Navbar = ({ onMenuClick }) => {
             <div className="px-3 py-2">
               <h3 className="text-sm font-medium text-gray-500 px-2 mb-2">Categories</h3>
               <div className="grid grid-cols-2 gap-2">
-                <Link
-                  to="/competitions"
-                  className="px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Competitions
-                </Link>
                 {categories.map((category) => (
                   <Link
                     key={category}
