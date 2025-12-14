@@ -779,15 +779,38 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
+                    strokeWidth="2"
                     d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
                   />
                 </svg>
                 <span className="text-base font-medium">Trending</span>
+              </Link>
+
+              <Link
+                to="/organize"
+                onClick={handleCloseSidebar}
+                className="flex items-center px-4 py-3 text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 group"
+              >
+                <svg
+                  className="w-5 h-5 mr-3 text-gray-500 group-hover:text-[#c2b490] transition-colors"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                  />
+                </svg>
+                <span className="text-base font-medium">Organize</span>
               </Link>
 
               {/* Horizontal Line */}
@@ -797,38 +820,64 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
               <div className="px-4">
                 <h3 className="text-base font-bold text-gray-800 mb-3">Interests</h3>
                 <div className="space-y-2">
-                  <div className="px-4 py-2 text-sm text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 cursor-pointer">
-                    Football
+                  <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg">
+                    <img src="https://cdn-icons-png.flaticon.com/128/9254/9254656.png" alt="Chess" className="w-5 h-5 mr-2" />
+                    <span>Chess</span>
                   </div>
-                  <div className="px-4 py-2 text-sm text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 cursor-pointer">
-                    Hackathon
+                  <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg">
+                    <img src="https://cdn-icons-png.flaticon.com/128/18698/18698899.png" alt="DJ Night" className="w-5 h-5 mr-2" />
+                    <span>DJ Night</span>
                   </div>
-                </div>
-              </div>
-
-              {/* Additional Items */}
-              <div className="px-4">
-                <div className="space-y-2">
-                  <div className="px-4 py-2 text-sm text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 cursor-pointer">
-                    Arjit Singh
+                  <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg">
+                    <img src="https://cdn-icons-png.flaticon.com/128/9354/9354357.png" alt="Hackathon" className="w-5 h-5 mr-2" />
+                    <span>Hackathon</span>
                   </div>
-                  <div className="px-4 py-2 text-sm text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 cursor-pointer">
-                    Football
+                  <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg">
+                    <img src="https://cdn-icons-png.flaticon.com/128/9942/9942524.png" alt="Fashion Show" className="w-5 h-5 mr-2" />
+                    <span>Fashion Show</span>
                   </div>
-                  <div className="px-4 py-2 text-sm text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 cursor-pointer">
-                    Hackathon
+                  <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg">
+                    <img src="https://cdn-icons-png.flaticon.com/128/2642/2642105.png" alt="Cricket" className="w-5 h-5 mr-2" />
+                    <span>Cricket</span>
                   </div>
-                  <div className="px-4 py-2 text-sm text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 cursor-pointer">
-                    Arjit Singh
-                  </div>
-                  <div className="px-4 py-2 text-sm text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 cursor-pointer">
-                    ...... More
+                  <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg">
+                    <img src="https://cdn-icons-png.flaticon.com/128/9942/9942524.png" alt="Seminar" className="w-5 h-5 mr-2" />
+                    <span>Seminar</span>
                   </div>
                 </div>
               </div>
 
               {/* Horizontal Line */}
               <div className="my-2 mx-4 border-t border-gray-300"></div>
+
+              {/* Settings Button */}
+              <Link
+                to="/settings"
+                onClick={handleCloseSidebar}
+                className="flex items-center px-4 py-3 text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 group"
+              >
+                <svg
+                  className="w-5 h-5 mr-3 text-gray-500 group-hover:text-[#c2b490] transition-colors"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+                <span className="text-base font-medium">Settings</span>
+              </Link>
 
               <Link
                 to="/contact"
@@ -840,6 +889,7 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
                     strokeLinecap="round"
@@ -850,6 +900,7 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
                 </svg>
                 <span className="text-base font-medium">Contact</span>
               </Link>
+
             </div>
           </nav>
         </div>
