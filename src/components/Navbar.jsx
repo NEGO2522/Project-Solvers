@@ -693,7 +693,7 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
               </Link>
 
               <Link
-                to="/about"
+                to="/trending"
                 onClick={handleCloseSidebar}
                 className="flex items-center px-4 py-3 text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 group"
               >
@@ -707,11 +707,51 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
                   />
                 </svg>
-                <span className="text-base font-medium">About</span>
+                <span className="text-base font-medium">Trending</span>
               </Link>
+
+              {/* Horizontal Line */}
+              <div className="my-2 mx-4 border-t border-gray-300"></div>
+
+              {/* Interests Section */}
+              <div className="px-4">
+                <h3 className="text-base font-bold text-gray-800 mb-3">Interests</h3>
+                <div className="space-y-2">
+                  <div className="px-4 py-2 text-sm text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 cursor-pointer">
+                    Football
+                  </div>
+                  <div className="px-4 py-2 text-sm text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 cursor-pointer">
+                    Hackathon
+                  </div>
+                </div>
+              </div>
+
+              {/* Additional Items */}
+              <div className="px-4">
+                <div className="space-y-2">
+                  <div className="px-4 py-2 text-sm text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 cursor-pointer">
+                    Arjit Singh
+                  </div>
+                  <div className="px-4 py-2 text-sm text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 cursor-pointer">
+                    Football
+                  </div>
+                  <div className="px-4 py-2 text-sm text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 cursor-pointer">
+                    Hackathon
+                  </div>
+                  <div className="px-4 py-2 text-sm text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 cursor-pointer">
+                    Arjit Singh
+                  </div>
+                  <div className="px-4 py-2 text-sm text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 cursor-pointer">
+                    ...... More
+                  </div>
+                </div>
+              </div>
+
+              {/* Horizontal Line */}
+              <div className="my-2 mx-4 border-t border-gray-300"></div>
 
               <Link
                 to="/contact"
