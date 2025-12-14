@@ -4,6 +4,9 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { app } from './firebase';
 import Login from './auth/Login';
 import SignUp from './auth/SignUp';
+import ContactUs from './Pages/ContactU';
+import Home from './Pages/Home';
+import Navbar from './components/Navbar';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -31,7 +34,9 @@ function App() {
   return (
     <Router>
       <div className="min-h-screen bg-white">
-        <Routes>
+        <Navbar />
+        <main className="pt-16">
+          <Routes>
           <Route 
             path="/signup" 
             element={!user ? <SignUp /> : <Navigate to="/" />} 
@@ -41,19 +46,14 @@ function App() {
             element={!user ? <Login /> : <Navigate to="/" />} 
           />
           <Route 
+            path="/contact" 
+            element={<ContactUs />} 
+          />
+          <Route 
             path="/" 
             element={
               user ? (
-                <div className="p-8">
-                  <h1 className="text-2xl font-bold text-gray-800">Welcome to Your App</h1>
-                  <p className="mt-2 text-gray-600">You are logged in as: {user.email}</p>
-                  <button
-                    onClick={() => auth.signOut()}
-                    className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
-                  >
-                    Sign Out
-                  </button>
-                </div>
+                <Home />
               ) : (
                 <Navigate to="/login" />
               )
@@ -61,6 +61,7 @@ function App() {
           />
           <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
         </Routes>
+        </main>
       </div>
     </Router>
   );

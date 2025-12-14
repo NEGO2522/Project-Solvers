@@ -210,7 +210,7 @@ const Login = () => {
 
           <div className="mt-10 pt-6 border-t border-white/20">
             <p className="text-center text-white/80 text-sm">
-              Need help? <a href="#" className="text-white font-medium hover:text-white/80 transition-colors">Contact support</a>
+              Need help? <a href="/contact" className="text-white font-medium hover:text-white/80 transition-colors">Contact support</a>
             </p>
           </div>
         </div>
@@ -358,3 +358,4 @@ const Login = () => {
 };
 
 export default Login;
+
