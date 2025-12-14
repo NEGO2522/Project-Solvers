@@ -8,6 +8,7 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showSidebar, setShowSidebar] = useState(false);
+  const sliderRef = useRef(null);
 
   useEffect(() => {
     // Sync with parent component's sidebar state
@@ -69,6 +70,43 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
   }
 
   // Carousel settings
+  // Custom arrow components
+  const NextArrow = (props) => (
+    <button
+      {...props}
+      className="absolute right-4 top-1/2 z-10 -translate-y-1/2 transform rounded-full bg-black/30 p-2 text-white transition-all hover:bg-black/50"
+      aria-label="Next slide"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  );
+
+  const PrevArrow = (props) => (
+    <button
+      {...props}
+      className="absolute left-4 top-1/2 z-10 -translate-y-1/2 transform rounded-full bg-black/30 p-2 text-white transition-all hover:bg-black/50"
+      aria-label="Previous slide"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+  );
+
   const settings = {
     dots: true,
     infinite: true,
@@ -78,9 +116,10 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
     autoplay: true,
     autoplaySpeed: 3000,
     fade: true,
-    pauseOnHover: false,
-    pauseOnFocus: false,
-    arrows: false,
+    pauseOnHover: true,
+    pauseOnFocus: true,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
     dotsClass: 'slick-dots !bottom-4',
     appendDots: dots => (
       <div className="absolute bottom-0 w-full">
@@ -103,12 +142,13 @@ const Home = ({ sidebarOpen, onToggleSidebar }) => {
     { id: 2, image: genaiAcademy },
     { id: 3, image: marathon }
   ];
+  
 
   return (
     <div className="relative w-full pt-4">
       {/* Carousel */}
-      <div className="relative h-96 mb-8 overflow-hidden rounded-xl mx-4 sm:mx-6 lg:mx-8 shadow-xl">
-        <Slider {...settings}>
+      <div className="relative h-96 mb-8 overflow-hidden rounded-xl mx-4 sm:mx-6 lg:mx-8 shadow-xl group">
+        <Slider ref={sliderRef} {...settings}>
           {carouselSlides.map((slide) => (
             <div key={slide.id} className="h-96 w-full">
               <img 
