@@ -153,6 +153,31 @@ const Sidebar = ({ isOpen, onClose }) => {
                 </li>
               ))}
             </ul>
+            
+            {/* Create Event Button */}
+            <div className="px-2 mt-4">
+              <Link
+                to="/create-event"
+                onClick={onClose}
+                className="flex items-center justify-center px-4 py-3 bg-[#c2b490] hover:bg-[#a08f6a] text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-200 group"
+              >
+                <svg
+                  className="w-5 h-5 mr-2 text-white transition-transform group-hover:scale-110"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                  />
+                </svg>
+                Create Event
+              </Link>
+            </div>
           </nav>
         </div>
       </div>
