@@ -1,12 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiArrowLeft, FiCalendar, FiMapPin, FiClock, FiUsers, FiDollarSign } from 'react-icons/fi';
+import { FiArrowLeft, FiCalendar, FiMapPin, FiClock, FiUsers, FiDollarSign, FiCheck } from 'react-icons/fi';
+import { getAuth } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 
 const Event_Detail = () => {
   const navigate = useNavigate();
+  const auth = getAuth();
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkRegistration = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        try {
+          const userRef = doc(db, 'eventRegistrations', user.uid);
+          const docSnap = await getDoc(userRef);
+          if (docSnap.exists() && docSnap.data().eventId === event.id) {
+            setIsRegistered(true);
+          }
+        } catch (error) {
+          console.error('Error checking registration:', error);
+        }
+      }
+      setLoading(false);
+    };
+
+    checkRegistration();
+  }, [auth.currentUser]);
 
   // Event data
   const event = {
+    id: 'default-event-id', // This should match the eventId in Register.jsx
     title: "Development Hackathon - DevQuest",
     date: "December 25-30, 2023",
     time: "48-Hour Online Event",
@@ -72,12 +99,28 @@ const Event_Detail = () => {
                 </div>
               </div>
 
-              <button 
-                onClick={() => navigate('/register')}
-                className="mt-6 px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
-              >
-                Register Now
-              </button>
+              {loading ? (
+                <button 
+                  className="mt-6 px-6 py-2 bg-gray-300 text-white rounded-lg cursor-not-allowed"
+                  disabled
+                >
+                  Loading...
+                </button>
+              ) : isRegistered ? (
+                <button 
+                  className="mt-6 px-6 py-2 bg-green-500 text-white rounded-lg flex items-center gap-2"
+                  disabled
+                >
+                  <FiCheck /> Registered
+                </button>
+              ) : (
+                <button 
+                  onClick={() => navigate('/register', { state: { eventId: event.id } })}
+                  className="mt-6 px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+                >
+                  Register Now
+                </button>
+              )}
             </div>
           </div>
 

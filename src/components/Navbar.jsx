@@ -689,8 +689,8 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
 
                       {/* User Info */}
                       <div className="mb-4">
-                        <div className="flex items-center space-x-3 mb-3">
-                          <div className="h-10 w-10 rounded-full bg-[#c2b490] flex items-center justify-center text-white text-lg font-semibold">
+                        <div className="flex items-center space-x-3 mb-4">
+                          <div className="h-12 w-12 rounded-full bg-[#c2b490] flex items-center justify-center text-white text-xl font-semibold">
                             {auth.currentUser?.email[0].toUpperCase()}
                           </div>
                           <div className="flex-1 min-w-0">
@@ -702,6 +702,28 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
                             </p>
                           </div>
                         </div>
+                        
+                        {/* View Profile Button */}
+                        <Link
+                          to="/profile"
+                          onClick={handleCloseProfileCard}
+                          className="w-full flex items-center justify-center px-4 py-2 mb-3 bg-[#f8f5ee] text-[#c2b490] rounded-lg hover:bg-[#f0e9dd] transition-colors focus:outline-none focus:ring-2 focus:ring-[#c2b490] focus:ring-offset-2 text-sm font-medium"
+                        >
+                          <svg
+                            className="h-4 w-4 mr-2"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                            />
+                          </svg>
+                          View Profile
+                        </Link>
                       </div>
 
                       {/* Sign Out Button */}
