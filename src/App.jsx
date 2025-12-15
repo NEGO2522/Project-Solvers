@@ -21,6 +21,7 @@ import Fashion from './Pages/Fashion';
 import Social from './Pages/Social';
 import Career from './Pages/Career';
 import Arts from './Pages/Arts';
+import Profile from './Pages/Profile';
 import Footer from './components/Footer';
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const auth = getAuth(app);
-  
+
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
@@ -186,6 +187,14 @@ function App() {
                           element={
                             <div className="flex-1 min-h-[calc(100vh-4rem)]">
                               <Arts />
+                            </div>
+                          } 
+                        />
+                        <Route 
+                          path="/profile" 
+                          element={
+                            <div className="flex-1 min-h-[calc(100vh-4rem)]">
+                              <Profile />
                             </div>
                           } 
                         />

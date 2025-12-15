@@ -243,14 +243,26 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
       <AnimatePresence>
         {showAISearch && (
           <motion.div 
-            className="fixed inset-0 z-50 overflow-y-auto"
+            className="fixed z-50 overflow-y-auto transition-all duration-300"
+            style={{
+              top: 0,
+              bottom: 0,
+              right: 0,
+              left: isSidebarOpen ? '256px' : '0px'
+            }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
             <motion.div 
-              className="fixed inset-0 bg-black/30 backdrop-blur-sm"
+              className="fixed bg-black/30 backdrop-blur-sm"
+              style={{
+                top: 0,
+                bottom: 0,
+                right: 0,
+                left: isSidebarOpen ? '256px' : '0px'
+              }}
               onClick={closeAISearch}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -357,7 +369,7 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
                 </div>
                 
                 <div className="bg-gray-50/50 border-t border-gray-100 px-6 py-3">
-                  <p className="text-xs text-gray-500 text-center">
+                  <p className="text-xs text-gray-500 text-center ml-[10px]">
                     Powered by Eventy AI • Ask about events, categories, or locations
                   </p>
                 </div>
@@ -677,8 +689,8 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
 
                       {/* User Info */}
                       <div className="mb-4">
-                        <div className="flex items-center space-x-3 mb-3">
-                          <div className="h-10 w-10 rounded-full bg-[#c2b490] flex items-center justify-center text-white text-lg font-semibold">
+                        <div className="flex items-center space-x-3 mb-4">
+                          <div className="h-12 w-12 rounded-full bg-[#c2b490] flex items-center justify-center text-white text-xl font-semibold">
                             {auth.currentUser?.email[0].toUpperCase()}
                           </div>
                           <div className="flex-1 min-w-0">
@@ -690,6 +702,28 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
                             </p>
                           </div>
                         </div>
+                        
+                        {/* View Profile Button */}
+                        <Link
+                          to="/profile"
+                          onClick={handleCloseProfileCard}
+                          className="w-full flex items-center justify-center px-4 py-2 mb-3 bg-[#f8f5ee] text-[#c2b490] rounded-lg hover:bg-[#f0e9dd] transition-colors focus:outline-none focus:ring-2 focus:ring-[#c2b490] focus:ring-offset-2 text-sm font-medium"
+                        >
+                          <svg
+                            className="h-4 w-4 mr-2"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                            />
+                          </svg>
+                          View Profile
+                        </Link>
                       </div>
 
                       {/* Sign Out Button */}
@@ -1010,27 +1044,27 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
                 <div className="space-y-2">
                   <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors duration-200">
                     <img src="https://cdn-icons-png.flaticon.com/128/9254/9254656.png" alt="Chess" className="w-5 h-5 mr-2" />
-                    <span>Chess</span>
+                    <Link to="/sports"><span>Chess</span></Link>
                   </div>
                   <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors duration-200">
                     <img src="https://cdn-icons-png.flaticon.com/128/18698/18698899.png" alt="DJ Night" className="w-5 h-5 mr-2" />
-                    <span>DJ Night</span>
+                    <Link to="/music"><span>DJ Night</span></Link>
                   </div>
                   <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors duration-200">
                     <img src="https://cdn-icons-png.flaticon.com/128/9354/9354357.png" alt="Hackathon" className="w-5 h-5 mr-2" />
-                    <span>Hackathon</span>
+                    <Link to="/technology"><span>Hackathon</span></Link>
                   </div>
                   <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors duration-200">
                     <img src="https://cdn-icons-png.flaticon.com/128/9942/9942524.png" alt="Fashion Show" className="w-5 h-5 mr-2" />
-                    <span>Fashion Show</span>
+                    <Link to="/fashion"><span>Fashion Show</span></Link>
                   </div>
                   <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors duration-200">
                     <img src="https://cdn-icons-png.flaticon.com/128/2642/2642105.png" alt="Cricket" className="w-5 h-5 mr-2" />
-                    <span>Cricket</span>
+                    <Link to="/sports"><span>Cricket</span></Link>
                   </div>
                   <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors duration-200">
                     <img src="https://cdn-icons-png.flaticon.com/128/9942/9942524.png" alt="Seminar" className="w-5 h-5 mr-2" />
-                    <span>Seminar</span>
+                    <Link to="/career"><span>Seminar</span></Link>
                   </div>
                 </div>
               </div>

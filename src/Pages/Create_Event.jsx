@@ -1,10 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db } from '../firebase';
+import { FaPlus, FaTrash, FaSpinner } from 'react-icons/fa';
 
 const CreateEvent = () => {
   const navigate = useNavigate();
   
   // Form state
+  const auth = getAuth();
+  const storage = getStorage();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
   const [formData, setFormData] = useState({
     eventName: '',
     eventType: 'physical', // 'physical' or 'virtual'
@@ -21,10 +32,10 @@ const CreateEvent = () => {
     image: null,
     imagePreview: '',
     ticketTypes: [
-      { name: 'General Admission', price: '', quantity: '', description: '' }
+      { name: 'General Admission', price: '0', quantity: '100', description: 'General admission ticket' }
     ],
     isFree: false,
-    paymentOptions: ['credit_card', 'paypal'],
+    paymentOptions: ['credit_card'],
     termsAgreed: false
   });
 
@@ -114,13 +125,116 @@ const CreateEvent = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
-    console.log('Form submitted:', formData);
-    // Navigate to event preview or dashboard after submission
-    // navigate('/organizer');
-    alert('Event created successfully!');
+    
+    if (!auth.currentUser) {
+      setError('You must be logged in to create an event');
+      return;
+    }
+
+    if (!formData.termsAgreed) {
+      setError('You must agree to the terms and conditions');
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      setError('');
+      setSuccess('');
+
+      // Upload image if exists
+      let imageUrl = '';
+      if (formData.image) {
+        try {
+          // Create a unique filename
+          const fileExt = formData.image.name.split('.').pop();
+          const fileName = `event_${Date.now()}.${fileExt}`;
+          const storageRef = ref(storage, `event-images/${fileName}`);
+          
+          // Set metadata including content type
+          const metadata = {
+            contentType: formData.image.type || 'image/jpeg',
+            cacheControl: 'public, max-age=31536000',
+          };
+
+          // Upload the file with metadata
+          const snapshot = await uploadBytes(storageRef, formData.image, metadata);
+          
+          // Get the download URL
+          imageUrl = await getDownloadURL(snapshot.ref);
+          console.log('File uploaded successfully:', imageUrl);
+          
+        } catch (uploadError) {
+          console.error('Error uploading image:', uploadError);
+          throw new Error('Failed to upload image. Please try again.');
+        }
+      }
+
+      // Prepare event data for Firestore
+      const eventData = {
+        eventName: formData.eventName,
+        eventType: formData.eventType,
+        category: formData.category,
+        description: formData.description,
+        startDate: new Date(`${formData.startDate}T${formData.startTime}`),
+        endDate: new Date(`${formData.endDate}T${formData.endTime}`),
+        timezone: formData.timezone,
+        location: formData.eventType === 'physical' ? formData.location : null,
+        virtualLink: formData.eventType === 'virtual' ? formData.virtualLink : null,
+        capacity: parseInt(formData.capacity) || 0,
+        imageUrl,
+        ticketTypes: formData.ticketTypes.map(ticket => ({
+          ...ticket,
+          price: parseFloat(ticket.price) || 0,
+          quantity: parseInt(ticket.quantity) || 0
+        })),
+        isFree: formData.isFree,
+        paymentOptions: formData.paymentOptions,
+        createdBy: auth.currentUser.uid,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        status: 'draft' // draft, published, cancelled, completed
+      };
+
+      // Add event to Firestore
+      const docRef = await addDoc(collection(db, 'events'), eventData);
+      
+      setSuccess('Event created successfully!');
+      
+      // Reset form
+      setFormData({
+        eventName: '',
+        eventType: 'physical',
+        category: '',
+        description: '',
+        startDate: '',
+        endDate: '',
+        startTime: '',
+        endTime: '',
+        timezone: 'Asia/Kolkata',
+        location: '',
+        virtualLink: '',
+        capacity: '',
+        image: null,
+        imagePreview: '',
+        ticketTypes: [
+          { name: 'General Admission', price: '0', quantity: '100', description: 'General admission ticket' }
+        ],
+        isFree: false,
+        paymentOptions: ['credit_card'],
+        termsAgreed: false
+      });
+
+      // Redirect to event page or dashboard
+      navigate(`/event/${docRef.id}`);
+      
+    } catch (err) {
+      console.error('Error creating event:', err);
+      setError('Failed to create event. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -131,6 +245,18 @@ const CreateEvent = () => {
           <p className="text-gray-600">Fill in the details below to create your event</p>
         </div>
 
+        {error && (
+          <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded" role="alert">
+            <p>{error}</p>
+          </div>
+        )}
+        
+        {success && (
+          <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded" role="alert">
+            <p>{success}</p>
+          </div>
+        )}
+        
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Basic Information Card */}
           <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100">
@@ -601,7 +727,14 @@ const CreateEvent = () => {
                   type="submit"
                   className="inline-flex justify-center items-center py-3 px-8 border border-transparent shadow-sm text-base font-medium rounded-lg text-white bg-gradient-to-r from-[#c2b490] to-[#a08f6a] hover:from-[#a08f6a] hover:to-[#8a7c5d] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c2b490] transition duration-150 ease-in-out transform hover:scale-[1.02]"
                 >
-                  Create Event
+                  {isSubmitting ? (
+                    <>
+                      <FaSpinner className="animate-spin mr-2" />
+                      Creating...
+                    </>
+                  ) : (
+                    'Create Event'
+                  )}
                 </button>
               </div>
             </div>

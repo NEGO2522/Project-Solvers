@@ -148,7 +148,7 @@ const Login = () => {
   }
 
   return (
-    <div className="absolute inset-0 h-full w-full flex bg-[#feda6a]">
+    <div className="min-h-screen flex bg-[#feda6a]">
       {/* Left side with gradient background */}
       <div className="hidden md:flex md:w-1/2 bg-[#c2b490] items-center justify-center p-8">
         <div className="max-w-md bg-white/10 backdrop-blur-sm rounded-2xl p-10 border border-white/20 shadow-2xl">

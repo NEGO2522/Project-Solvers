@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FaUser, FaEnvelope, FaPhone, FaUsers, FaUniversity, FaIdCard, FaArrowRight } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../firebase';
 import { getDatabase, ref, set } from 'firebase/database';
+import { db } from '../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 const Register = () => {
   const location = useLocation();
@@ -21,7 +23,22 @@ const Register = () => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (showSuccess) {
+      const timer = setTimeout(() => {
+        navigate('/', { 
+          state: { 
+            registrationSuccess: true,
+            registrationData: formData
+          } 
+        });
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [showSuccess, navigate, formData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,16 +51,17 @@ const Register = () => {
     setLoading(true);
 
     try {
+      // Create user with email and password
       const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.phone);
       await updateProfile(userCredential.user, { displayName: formData.fullName });
       
-      // Initialize Realtime Database
-      const db = getDatabase();
+      // Initialize Realtime Database and get user ID
+      const rtdb = getDatabase();
       const userId = userCredential.user.uid;
       const timestamp = new Date().toISOString();
       
-      // Store user profile data
-      await set(ref(db, `users/${userId}`), {
+      // Store user profile data in Realtime Database
+      await set(ref(rtdb, `users/${userId}`), {
         username: formData.fullName,
         email: formData.email,
         phone: formData.phone,
@@ -55,9 +73,17 @@ const Register = () => {
         lastLogin: timestamp
       });
       
-      // Store event registration data
+      // Add registration to Firestore
+      await addDoc(collection(db, 'eventRegistrations'), {
+        ...formData,
+        userId: userId,
+        registeredAt: serverTimestamp(),
+        status: 'registered'
+      });
+      
+      // Store event registration data in Realtime Database
       const registrationId = `reg_${Date.now()}`;
-      await set(ref(db, `eventRegistrations/${registrationId}`), {
+      await set(ref(rtdb, `eventRegistrations/${registrationId}`), {
         ...formData,
         userId: userId,
         registrationId: registrationId,
@@ -68,12 +94,9 @@ const Register = () => {
       // Create a reference to this registration in the user's registrations
       await set(ref(db, `userRegistrations/${userId}/${registrationId}`), true);
 
-      navigate('/registration-success', { 
-        state: { 
-          eventId: eventId,
-          registrationData: formData
-        } 
-      });
+      // Show success popup
+      setShowSuccess(true);
+      setLoading(false);
     } catch (err) {
       setError(err.message);
       setLoading(false);
@@ -407,6 +430,28 @@ const Register = () => {
           </div>
         </div>
       </motion.div>
+
+      {/* Success Popup */}
+      {showSuccess && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <motion.div 
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="bg-white rounded-xl p-8 max-w-md w-full mx-4 text-center"
+          >
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">Registration Successful!</h3>
+            <p className="text-gray-600 mb-6">You have successfully registered for the event. Redirecting to home page...</p>
+            <div className="w-full bg-gray-200 rounded-full h-2.5">
+              <div className="bg-green-500 h-2.5 rounded-full animate-pulse"></div>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 };
