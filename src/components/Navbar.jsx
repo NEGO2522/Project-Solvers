@@ -1044,27 +1044,27 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
                 <div className="space-y-2">
                   <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors duration-200">
                     <img src="https://cdn-icons-png.flaticon.com/128/9254/9254656.png" alt="Chess" className="w-5 h-5 mr-2" />
-                    <span>Chess</span>
+                    <Link to="/sports"><span>Chess</span></Link>
                   </div>
                   <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors duration-200">
                     <img src="https://cdn-icons-png.flaticon.com/128/18698/18698899.png" alt="DJ Night" className="w-5 h-5 mr-2" />
-                    <span>DJ Night</span>
+                    <Link to="/music"><span>DJ Night</span></Link>
                   </div>
                   <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors duration-200">
                     <img src="https://cdn-icons-png.flaticon.com/128/9354/9354357.png" alt="Hackathon" className="w-5 h-5 mr-2" />
-                    <span>Hackathon</span>
+                    <Link to="/technology"><span>Hackathon</span></Link>
                   </div>
                   <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors duration-200">
                     <img src="https://cdn-icons-png.flaticon.com/128/9942/9942524.png" alt="Fashion Show" className="w-5 h-5 mr-2" />
-                    <span>Fashion Show</span>
+                    <Link to="/fashion"><span>Fashion Show</span></Link>
                   </div>
                   <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors duration-200">
                     <img src="https://cdn-icons-png.flaticon.com/128/2642/2642105.png" alt="Cricket" className="w-5 h-5 mr-2" />
-                    <span>Cricket</span>
+                    <Link to="/sports"><span>Cricket</span></Link>
                   </div>
                   <div className="flex items-center px-4 py-2 text-sm text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors duration-200">
                     <img src="https://cdn-icons-png.flaticon.com/128/9942/9942524.png" alt="Seminar" className="w-5 h-5 mr-2" />
-                    <span>Seminar</span>
+                    <Link to="/career"><span>Seminar</span></Link>
                   </div>
                 </div>
               </div>
