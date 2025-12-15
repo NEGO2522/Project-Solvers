@@ -1,0 +1,82 @@
+{
+  "rules": {
+    ".read": "auth != null",
+    "users": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        ".validate": "newData.hasChildren(['username', 'email', 'phone'])",
+        "username": {
+          ".validate": "newData.isString() && newData.val().length > 0"
+        },
+        "email": {
+          ".validate": "newData.isString() && newData.val().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$/i)"
+        },
+        "phone": {
+          ".validate": "newData.isString() && newData.val().length >= 10"
+        },
+        "institution": {
+          ".validate": "newData.isString()"
+        },
+        "studentId": {
+          ".validate": "newData.isString()"
+        },
+        "role": {
+          ".validate": "newData.val() === 'user' || newData.val() === 'admin'"
+        },
+        "profileCompleted": {
+          ".validate": "newData.isBoolean()"
+        }
+      }
+    },
+    "eventRegistrations": {
+      ".indexOn": ["userId", "eventId"],
+      "$registrationId": {
+        ".read": "auth != null",
+        ".write": "auth != null && (!data.exists() || auth.uid === data.child('userId').val())",
+        ".validate": "newData.hasChildren(['userId', 'eventId', 'fullName', 'email'])",
+        "userId": {
+          ".validate": "newData.val() === auth.uid"
+        },
+        "eventId": {
+          ".validate": "newData.isString()"
+        },
+        "fullName": {
+          ".validate": "newData.isString() && newData.val().length > 0"
+        },
+        "email": {
+          ".validate": "newData.isString() && newData.val().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$/i)"
+        },
+        "phone": {
+          ".validate": "newData.isString()"
+        },
+        "institution": {
+          ".validate": "newData.isString()"
+        },
+        "teamName": {
+          ".validate": "newData.isString()"
+        },
+        "teamSize": {
+          ".validate": "newData.isString() && newData.val() >= 1"
+        },
+        "studentId": {
+          ".validate": "newData.isString()"
+        },
+        "registeredAt": {
+          ".validate": "newData.isString()"
+        },
+        "status": {
+          ".validate": "newData.isString()"
+        }
+      }
+    },
+    "userRegistrations": {
+      "$userId": {
+        "$registrationId": {
+          ".read": "auth != null && auth.uid === $userId",
+          ".write": "auth != null && auth.uid === $userId && newData.isBoolean()"
+        }
+      }
+    }
+  }
+}

@@ -3,8 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { FaUser, FaEnvelope, FaPhone, FaUsers, FaUniversity, FaIdCard, FaArrowRight } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { auth, db } from '../firebase';
-import { doc, setDoc } from 'firebase/firestore';
+import { auth } from '../firebase';
+import { getDatabase, ref, set } from 'firebase/database';
 
 const Register = () => {
   const location = useLocation();
@@ -37,12 +37,36 @@ const Register = () => {
       const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.phone);
       await updateProfile(userCredential.user, { displayName: formData.fullName });
       
-      const userRef = doc(db, 'eventRegistrations', userCredential.user.uid);
-      await setDoc(userRef, {
-        ...formData,
-        uid: userCredential.user.uid,
-        registeredAt: new Date().toISOString()
+      // Initialize Realtime Database
+      const db = getDatabase();
+      const userId = userCredential.user.uid;
+      const timestamp = new Date().toISOString();
+      
+      // Store user profile data
+      await set(ref(db, `users/${userId}`), {
+        username: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        institution: formData.institution,
+        studentId: formData.studentId,
+        role: 'user',
+        profileCompleted: true,
+        createdAt: timestamp,
+        lastLogin: timestamp
       });
+      
+      // Store event registration data
+      const registrationId = `reg_${Date.now()}`;
+      await set(ref(db, `eventRegistrations/${registrationId}`), {
+        ...formData,
+        userId: userId,
+        registrationId: registrationId,
+        registeredAt: timestamp,
+        status: 'registered'
+      });
+      
+      // Create a reference to this registration in the user's registrations
+      await set(ref(db, `userRegistrations/${userId}/${registrationId}`), true);
 
       navigate('/registration-success', { 
         state: { 

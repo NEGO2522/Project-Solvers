@@ -21,37 +21,13 @@ import Fashion from './Pages/Fashion';
 import Social from './Pages/Social';
 import Career from './Pages/Career';
 import Arts from './Pages/Arts';
-import Survey from './components/Survey';
 import Footer from './components/Footer';
 
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [showSurvey, setShowSurvey] = useState(false);
   const auth = getAuth(app);
-  
-  // Check if user has completed the survey
-  useEffect(() => {
-    if (user) {
-      // In a real app, you would check this from the user's profile in your database
-      const hasCompletedSurvey = localStorage.getItem(`surveyCompleted_${user.uid}`);
-      if (!hasCompletedSurvey) {
-        // Small delay to ensure the main content loads first
-        const timer = setTimeout(() => {
-          setShowSurvey(true);
-        }, 1000);
-        return () => clearTimeout(timer);
-      }
-    }
-  }, [user]);
-  
-  const handleSurveyComplete = () => {
-    if (user) {
-      localStorage.setItem(`surveyCompleted_${user.uid}`, 'true');
-    }
-    setShowSurvey(false);
-  };
   
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -82,9 +58,6 @@ function App() {
   return (
     <Router>
       <div className="min-h-screen bg-white">
-        {showSurvey && (
-          <Survey onClose={handleSurveyComplete} />
-        )}
         <Routes>
           <Route 
             path="/" 
@@ -213,19 +186,6 @@ function App() {
                           element={
                             <div className="flex-1 min-h-[calc(100vh-4rem)]">
                               <Arts />
-                            </div>
-                          } 
-                        />
-                        <Route 
-                          path="/survey" 
-                          element={
-                            <div className="flex-1 min-h-[calc(100vh-4rem)]">
-                              <Survey onClose={() => {
-                                if (user) {
-                                  localStorage.setItem(`surveyCompleted_${user.uid}`, 'true');
-                                }
-                                navigate('/home');
-                              }} />
                             </div>
                           } 
                         />
