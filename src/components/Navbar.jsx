@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import { getAuth, signOut } from 'firebase/auth';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ai_icon from '../assets/ai_icon.png';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,6 +13,14 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
   const [showCategories, setShowCategories] = useState(false);
   const [showProfileCard, setShowProfileCard] = useState(false);
   const [showHostDropdown, setShowHostDropdown] = useState(false);
+  const [showAISearch, setShowAISearch] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [suggestions, setSuggestions] = useState([
+    'Upcoming tech events in Bangalore',
+    'Music festivals next month',
+    'Free workshops this weekend',
+    'Networking events for entrepreneurs'
+  ]);
   const isSidebarOpen = sidebarOpen || false;
   const [filters, setFilters] = useState({
     category: 'all',
@@ -185,9 +194,178 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
     }
   };
 
+  const handleAISearch = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowAISearch(true);
+    document.body.style.overflow = 'hidden';
+  }, []);
+
+  const closeAISearch = useCallback(() => {
+    setShowAISearch(false);
+    document.body.style.overflow = 'unset';
+    setIsTyping(false);
+  }, []);
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      handleSearch(e);
+      closeAISearch();
+    }
+  };
+
+  // Add Escape key listener for AI search overlay
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape' && showAISearch) {
+        closeAISearch();
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [showAISearch, closeAISearch]);
+
+  // Handle typing animation
+  useEffect(() => {
+    if (searchQuery.trim()) {
+      setIsTyping(true);
+      const timer = setTimeout(() => setIsTyping(false), 1000);
+      return () => clearTimeout(timer);
+    } else {
+      setIsTyping(false);
+    }
+  }, [searchQuery]);
 
   return (
-    <nav className="bg-white shadow-sm fixed top-0 left-0 right-0 z-50 w-full">
+    <nav className="bg-white shadow-md fixed top-0 left-0 right-0 z-50 w-full">
+      {/* AI Search Overlay */}
+      <AnimatePresence>
+        {showAISearch && (
+          <motion.div 
+            className="fixed inset-0 z-50 overflow-y-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <motion.div 
+              className="fixed inset-0 bg-black/30 backdrop-blur-sm"
+              onClick={closeAISearch}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            />
+            <div className="flex items-center justify-center min-h-screen p-4">
+              <motion.div 
+                className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl w-full max-w-2xl border border-gray-200 overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
+                initial={{ y: 20, opacity: 0, scale: 0.98 }}
+                animate={{ y: 0, opacity: 1, scale: 1 }}
+                exit={{ y: 20, opacity: 0, scale: 0.98 }}
+                transition={{ type: 'spring', damping: 30, stiffness: 400 }}
+              >
+                <div className="p-6">
+                  <div className="flex justify-between items-center mb-6">
+                    <div className="flex items-center">
+                      <div className="w-9 h-9 rounded-full bg-[#f0e8d8] flex items-center justify-center mr-3">
+                        <img src={ai_icon} alt="AI" className="w-5 h-5" />
+                      </div>
+                      <h2 className="text-2xl font-bold text-gray-900">Eventy AI</h2>
+                      {isTyping && (
+                        <div className="ml-3 flex space-x-1">
+                          <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0ms' }} />
+                          <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '150ms' }} />
+                          <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+                        </div>
+                      )}
+                    </div>
+                    <button 
+                      onClick={closeAISearch} 
+                      className="text-gray-400 hover:bg-gray-100 p-1 rounded-full transition-colors"
+                      aria-label="Close AI search"
+                    >
+                      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                  
+                  <form onSubmit={handleSearchSubmit}>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        className="block w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl bg-gray-50/70 focus:outline-none focus:ring-2 focus:ring-[#c2b490]/50 focus:border-transparent text-base transition-all duration-200"
+                        placeholder="Ask me anything about events..."
+                        autoFocus
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                      />
+                      <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </div>
+                      <motion.button
+                        type="submit"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-[#c2b490] text-white hover:bg-[#a08f6a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c2b490]/50 transition-all"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        disabled={!searchQuery.trim()}
+                        aria-label="Search"
+                      >
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                      </motion.button>
+                    </div>
+                  </form>
+
+                  <motion.div 
+                    className="mt-6"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <h3 className="text-sm font-medium text-gray-500 mb-3 flex items-center">
+                      <span>Try asking</span>
+                      <motion.span 
+                        className="ml-2"
+                        animate={{ x: [0, 5, 0] }}
+                        transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+                      >
+                        👇
+                      </motion.span>
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {suggestions.map((suggestion, index) => (
+                        <motion.button
+                          key={index}
+                          className="text-left p-3 rounded-xl border border-gray-200 hover:bg-gray-50 text-sm text-gray-700 transition-all hover:shadow-sm hover:border-[#c2b490]/50"
+                          onClick={() => {
+                            setSearchQuery(suggestion);
+                          }}
+                          whileHover={{ y: -2, boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}
+                          transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+                        >
+                          {suggestion}
+                        </motion.button>
+                      ))}
+                    </div>
+                  </motion.div>
+                </div>
+                
+                <div className="bg-gray-50/50 border-t border-gray-100 px-6 py-3">
+                  <p className="text-xs text-gray-500 text-center">
+                    Powered by Eventy AI • Ask about events, categories, or locations
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className="px-4 sm:px-6">
         <div className="flex justify-between items-center h-16 relative">
           {/* Left side - Menu button and logo */}
@@ -237,16 +415,13 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
                     onFocus={() => setShowSearchCard(true)}
                   />
                   <div className="absolute right-2 flex items-center space-x-1">
-                    <span className="text-sm text-gray-400 hover:text-[#c2b490] cursor-default">Ask</span>
                     <button
                       type="button"
-                      className="p-1 hover:opacity-80 flex items-center justify-center"
-                      onClick={() => alert('AI Chatbot coming soon!')}
-                      title="AI Chatbot"
+                      className="flex items-center text-sm text-[#c2b490] hover:text-[#a08f6a] font-medium focus:outline-none"
+                      onClick={handleAISearch}
                     >
-                      <div className="h-7 w-7 rounded-full border-2 border-blue-500 flex items-center justify-center p-1 bg-white">
-                        <img src={ai_icon} alt="AI Icon" className="h-full w-full object-contain" />
-                      </div>
+                      <img src={ai_icon} alt="AI Search" className="w-5 h-5" />
+                      <span className="ml-1">Ask</span>
                     </button>
                   </div>
                 </div>
@@ -805,7 +980,7 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
               </Link>
 
               <Link
-                to="/organize"
+                to="/organizer"
                 onClick={handleCloseSidebar}
                 className="flex items-center px-4 py-3 text-gray-700 hover:bg-[#f0ede5] hover:text-[#c2b490] rounded-lg transition-colors duration-200 group"
               >
