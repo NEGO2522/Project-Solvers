@@ -243,14 +243,26 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
       <AnimatePresence>
         {showAISearch && (
           <motion.div 
-            className="fixed inset-0 z-50 overflow-y-auto"
+            className="fixed z-50 overflow-y-auto transition-all duration-300"
+            style={{
+              top: 0,
+              bottom: 0,
+              right: 0,
+              left: isSidebarOpen ? '256px' : '0px'
+            }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
             <motion.div 
-              className="fixed inset-0 bg-black/30 backdrop-blur-sm"
+              className="fixed bg-black/30 backdrop-blur-sm"
+              style={{
+                top: 0,
+                bottom: 0,
+                right: 0,
+                left: isSidebarOpen ? '256px' : '0px'
+              }}
               onClick={closeAISearch}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -357,7 +369,7 @@ const Navbar = ({ onMenuClick, sidebarOpen, setSidebarOpen }) => {
                 </div>
                 
                 <div className="bg-gray-50/50 border-t border-gray-100 px-6 py-3">
-                  <p className="text-xs text-gray-500 text-center">
+                  <p className="text-xs text-gray-500 text-center ml-[10px]">
                     Powered by Eventy AI • Ask about events, categories, or locations
                   </p>
                 </div>
